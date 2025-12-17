@@ -191,7 +191,8 @@ $spacing: 16px;
 }
 ```
 
-# Variants
+# Variants 
+[commit](https://github.com/rajlanjewar01/sxa-sitecore-starter/commit/bd8b175f0b844f88fad6195f0a2fef291241c212)
 
 Sitecore renderings support variants—multiple presentations of the same component using the same data. Each rendering
 requires at least a Default variant; additional variants (e.g. Horizontal, Compact) can offer different layouts or subsets of fields.
@@ -275,3 +276,4 @@ export const HorizontalVariant: StoryObj<Props> = {
 	args: common,
 };
 ```
+
