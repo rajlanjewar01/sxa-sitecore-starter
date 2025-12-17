@@ -1,22 +1,20 @@
-SCSS Setup:
+# SCSS Setup:
 
-- Install packages:
+## Install packages:
 
 ```
 npm install sass
 npm install -D sass-embedded
 ```
 
-
-- Notes:
-**scss**
-1) variables: `$<variable_name>`
+## Notes:
+* variables: `$<variable_name>`
 ```
 $card-bg: #fff;
 $card-bg-alt: #c0c0c0;
 ```
 
-2) mixin `@mixin <mixin_name>`
+* mixin `@mixin <mixin_name>`
 ```
 @mixin card-base {
 	background-color: $card-bg;
@@ -28,7 +26,7 @@ $card-bg-alt: #c0c0c0;
 }
 ```
 
-3) nested block + BEM elements
+* nested block + BEM elements
 ```
 .card {
 	@include card-base;
@@ -45,7 +43,7 @@ $card-bg-alt: #c0c0c0;
 	}
 ```
 
-**BEM - How and Why**
+### BEM - How and Why
 
 Before we continue, letʼs learn a little about BEM if you arenʼt familar with it. BEM (Block-Element-Modifier) gives you a predictable, hierarchical naming convention.
 
@@ -65,6 +63,7 @@ Before we continue, letʼs learn a little about BEM if you arenʼt familar with 
 This approach prevents name collisions and clearly communicates which styles belong to which part of your component.
 
 
+## Examples:
 
 - Create `Cards.module.scss` file
 
@@ -161,5 +160,6 @@ $spacing: 16px;
 }
 
 ```
+
 
 
