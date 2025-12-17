@@ -62,6 +62,37 @@ Before we continue, letʼs learn a little about BEM if you arenʼt familar with 
 
 This approach prevents name collisions and clearly communicates which styles belong to which part of your component.
 
+### SCSS Selector Basics
+* Nesting: You can “nest” child selectors inside their parent block to reduce repetition:
+```
+.card {
+ 	// parent styles…
+
+ &__image {
+ 	// image styles…
+	}
+
+ &__body {
+	// body styles…
+ 	}
+ }
+```
+
+* Parent selector ( & ): The ampersand represents the current selector. Use it for elements ( &__heading ) and modifiers ( &--selected ).
+  
+* Variables & Mixins: Store common values (colors, spacing) in variables, and reuse patterns with mixins:
+```
+$card-bg: #fff;
+$card-radius: 8px;
+$card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+@mixin card-shape {
+	background: $card-bg;
+	border-radius: $card-radius;
+	box-shadow: $card-shadow;
+}
+
+```
 
 ## Examples:
 
@@ -158,8 +189,4 @@ $spacing: 16px;
  		border: 2px solid $card-bg-alt;
 	}
 }
-
 ```
-
-
-
