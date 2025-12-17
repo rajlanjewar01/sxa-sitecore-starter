@@ -11,4 +11,11 @@ placeholders:
     - componentName: Card
       fields:
         heading: Welcome to Sitecore JSS
-
+      image:
+        src: 'https://picsum.photos/400/20'
+        alt: 'Card Image'
+        description:
+        value: 'Basic card description talking about the topic.'
+        ctaLink:
+        href: 'https://example.com'
+        text: 'Read More'

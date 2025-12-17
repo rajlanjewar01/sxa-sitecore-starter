@@ -16,7 +16,7 @@ type StoryProps = {
 
 	args: {
 		heading: { value: 'Welcome to Storybook' } as Field<string>,
-		image: { src: 'https://picsum.photos/400/200', alt: 'Sample Image' },
+		image: { src: 'https://www.joshwcomeau.com/images/backdrop-filter/tokyo.jpg', alt: 'Sample Image' },
 		description: { value: 'This is a simple description.' } as Field<string>,
 		ctaLink: {
 			href: 'https://example.com',

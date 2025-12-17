@@ -1,0 +1,26 @@
+.card {
+	background-color: #ffffff; /* white background */
+	$card-bg-alt: #c0c0c0; /* alternate background */
+	border-radius: 8px; /* rounded corners */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle drop shadow */
+	overflow: hidden; /* clip any child overflow */
+	max-width: 400px; /* constrain width */
+	margin: 16px auto; /* center with vertical spacing */
+
+	&__image {
+		width: 100%; /* full width */
+		height: 200px; /* maintain aspect ratio */
+		object-fit: cover;
+	}
+
+	&__body {
+		padding: 16px;
+	}
+
+	&__heading {
+		margin: 0 0 8px; /* bottom spacing */
+		font-size: 1.25rem; /* 20px-ish size */
+		font-weight: 600; /* semi‐bold */
+		color: #333333; 
+	}
+}
