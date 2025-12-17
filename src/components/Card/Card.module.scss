@@ -1,15 +1,27 @@
+// variables
+$card-bg: #fff;
+$card-bg-alt: #c0c0c0;
+$card-radius: 8px;
+$card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$spacing: 16px;
+
+// mixin
+@mixin card-base {
+	background-color: $card-bg;
+	border-radius: $card-radius;
+	box-shadow: $card-shadow;
+	overflow: hidden;
+	max-width: 400px;
+	margin: $spacing auto;
+}
+
+// nested block + BEM elements
 .card {
-	background-color: #ffffff; /* white background */
-	$card-bg-alt: #c0c0c0; /* alternate background */
-	border-radius: 8px; /* rounded corners */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle drop shadow */
-	overflow: hidden; /* clip any child overflow */
-	max-width: 400px; /* constrain width */
-	margin: 16px auto; /* center with vertical spacing */
+	@include card-base;
 
 	&__image {
-		width: 100%; /* full width */
-		height: 200px; /* maintain aspect ratio */
+		width: 100%;
+		height: 200px;
 		object-fit: cover;
 	}
 
@@ -18,9 +30,44 @@
 	}
 
 	&__heading {
-		margin: 0 0 8px; /* bottom spacing */
-		font-size: 1.25rem; /* 20px-ish size */
-		font-weight: 600; /* semi‐bold */
+		margin: 0 0 $card-radius;
+		font-size: 1.25rem;
+		font-weight: 600;
 		color: #333333; 
+	}
+
+	// example modifier
+	&--highlighted {
+ 		border: 2px solid $card-bg-alt;
+	}
+}
+
+.cardHorizontal {
+	display: flex;
+	max-width: 600px;
+	margin: 16px auto;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	&__media {
+		flex: 0 0 40%;
+	}
+
+ 	&__image {
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+
+	&__content {
+		flex: 1;
+		padding: 16px;
+	}
+
+ 	&__heading {
+		margin: 0 0 8px;
+		font-size: 1.25rem;
+	}
+
+	&__cta {
+ 	color: #007acc;
 	}
 }

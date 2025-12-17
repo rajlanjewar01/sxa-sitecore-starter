@@ -1,44 +1,50 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Field, ImageField, LinkField } from '@sitecore-jss/sitecore-jss-nextjs';
-import Card from './Card';
+import { Default, Horizontal } from './index';
 
-type StoryProps = {
+type Props = {
 	heading: Field<string>;
 	image: ImageField;
 	description: Field<string>;
 	ctaLink: LinkField;
 };
 
- export default {
+export default {
 	title: 'Components/Card',
-	component: Card,
-	tags: ['autodocs'],
+	component: Default,
+	subcomponents: {Horizontal},
+	tags: ['autodocs']
+} as Meta;
 
-	args: {
-		heading: { value: 'Welcome to Storybook' } as Field<string>,
-		image: { src: 'https://www.joshwcomeau.com/images/backdrop-filter/tokyo.jpg', alt: 'Sample Image' },
-		description: { value: 'This is a simple description.' } as Field<string>,
-		ctaLink: {
-			href: 'https://example.com',
-			text: 'Learn More',
-			value: { href: 'https://example.com', text: 'Learn More' },
-		},
-	}
-} as Meta<StoryProps>;
+const common = {
+	heading: { value: 'Card Title' } as Field<string>,
+	image: { value: { src: 'https://picsum.photos/400/200', alt: 'Image' } } as ImageField,
+	description: { value: 'Card content here.' } as Field<string>,
+	ctaLink: { value: { href: '#', text: 'Click Me' } } as LinkField,
+};
 
-export const Default: StoryObj<StoryProps> = {
-    args: {
-        ctaLink: {
-            "href": "https://example.com",
-            "text": "Learn More"
-        }
-    },
-
-    render: ({ heading, image, description, ctaLink }) => (
-	<Card
+export const DefaultVariant: StoryObj<Props> = {
+    render: (args: any) => (
+	<Default
 		rendering={{ componentName: 'Card', dataSource: 'test-card' }}
 		params={{}}
-		fields={{ heading, image, description, ctaLink }}
+		fields={args}
 	/>
-	)
+	),
+	args: common
+};
+
+export const HorizontalVariant: StoryObj<Props> = {
+ render: (args: any) => (
+	<Horizontal
+		rendering={{
+			componentName: 'Card',
+			dataSource: 'mock',
+			params: { variantName: 'Horizontal' },
+		}}
+		params={{ variantName: 'Horizontal' }}
+ 		fields={args}
+ 	/>
+ ),
+ args: common
 };
