@@ -45,6 +45,27 @@ $card-bg-alt: #c0c0c0;
 	}
 ```
 
+**BEM - How and Why**
+
+Before we continue, letʼs learn a little about BEM if you arenʼt familar with it. BEM (Block-Element-Modifier) gives you a predictable, hierarchical naming convention.
+
+```
+1 .block → .card
+2 .block__element → .card__image, .card__body, .card__heading
+3 .block--modifier → .card--highlighted (if you later need variations)
+```
+
+1) Block is the component root `( .card )`
+
+2) Element is a child part `( .card__image , .card__body , .card__heading )`
+
+3) Modifier flags a variant or state `( .card--disabled , .card--selected , etc.)`
+
+
+This approach prevents name collisions and clearly communicates which styles belong to which part of your component.
+
+
+
 - Create `Cards.module.scss` file
 
  <img width="222" height="147" alt="image" src="https://github.com/user-attachments/assets/dd19bcc6-3167-4e91-b11b-3d60a2cbfcaf" />
@@ -140,4 +161,5 @@ $spacing: 16px;
 }
 
 ```
+
 
