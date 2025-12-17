@@ -2,14 +2,57 @@ SCSS Setup:
 
 - Install packages:
 
-`npm install sass`
-`npm install -D sass-embedded`
+```
+npm install sass
+npm install -D sass-embedded
+```
 
-- Create Cards.module.scss file
-  <img width="222" height="147" alt="image" src="https://github.com/user-attachments/assets/dd19bcc6-3167-4e91-b11b-3d60a2cbfcaf" />
 
-Card.tsx
-`
+- Notes:
+**scss**
+1) variables: `$<variable_name>`
+```
+$card-bg: #fff;
+$card-bg-alt: #c0c0c0;
+```
+
+2) mixin `@mixin <mixin_name>`
+```
+@mixin card-base {
+	background-color: $card-bg;
+	border-radius: $card-radius;
+	box-shadow: $card-shadow;
+	overflow: hidden;
+	max-width: 400px;
+	margin: $spacing auto;
+}
+```
+
+3) nested block + BEM elements
+```
+.card {
+	@include card-base;
+
+	&__image {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+	}
+
+	// example modifier
+	&--highlighted {
+ 		border: 2px solid $card-bg-alt;
+	}
+```
+
+- Create `Cards.module.scss` file
+
+ <img width="222" height="147" alt="image" src="https://github.com/user-attachments/assets/dd19bcc6-3167-4e91-b11b-3d60a2cbfcaf" />
+
+
+- Card.tsx
+
+```
 import { 
         Text,
         Field,
@@ -46,11 +89,12 @@ const Card = (props: CardProps): JSX.Element => (
 );
 
 export default withDatasourceCheck()<CardProps>(Card);
-`
 
-Card.module.scss
+```
 
-`
+- Card.module.scss
+
+```
 // variables
 $card-bg: #fff;
 $card-bg-alt: #c0c0c0;
@@ -95,4 +139,5 @@ $spacing: 16px;
 	}
 }
 
-`
+```
+
