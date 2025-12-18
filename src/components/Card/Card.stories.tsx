@@ -18,7 +18,7 @@ export default {
 
 const common = {
 	heading: { value: 'Card Title' } as Field<string>,
-	image: { value: { src: 'https://picsum.photos/400/200', alt: 'Image' } } as ImageField,
+	image: { value: { src: 'https://www.joshwcomeau.com/images/subgrid/thumb-fish.jpg', alt: 'Image' } } as ImageField,
 	description: { value: 'Card content here.' } as Field<string>,
 	ctaLink: { value: { href: '#', text: 'Click Me' } } as LinkField,
 };
@@ -43,8 +43,8 @@ export const HorizontalVariant: StoryObj<Props> = {
 			params: { variantName: 'Horizontal' },
 		}}
 		params={{ variantName: 'Horizontal' }}
- 		fields={args}
- 	/>
+		fields={args}
+	/>
  ),
  args: common
 };
