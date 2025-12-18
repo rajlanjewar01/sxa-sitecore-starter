@@ -190,3 +190,90 @@ $spacing: 16px;
 	}
 }
 ```
+
+# Variants 
+[commit](https://github.com/rajlanjewar01/sxa-sitecore-starter/commit/bd8b175f0b844f88fad6195f0a2fef291241c212)
+
+Sitecore renderings support variants—multiple presentations of the same component using the same data. Each rendering
+requires at least a Default variant; additional variants (e.g. Horizontal, Compact) can offer different layouts or subsets of fields.
+
+1.  Rename and Export the Default Variant
+In `src/components/Card/index.tsx` , rename the internal component and export it as Default :
+
+`components/Card/index.tsx`
+
+```
+const DefaultCard = (props: CardProps): JSX.Element => (
+)
+...
+export const Default = DefaultCard;
+
+export const Horizontal = (props: CardProps): JSX.Element => (
+	<div className={styles.cardHorizontal}>
+		<div className={styles.cardHorizontal__media}>
+			<JssImage field={props.fields.image} className={styles.cardHorizontal__image} />
+		</div>
+		<div className={styles.cardHorizontal__content}>
+			<Text field={props.fields.heading} tag="h3" className={styles.cardHorizontal__heading} />
+			<Link field={props.fields.ctaLink} className={styles.cardHorizontal__cta} />
+		</div>
+	</div>
+);
+```
+
+2. Refactor and Add a New Story to Storybook:
+
+We can create a story specifically for our Horizontal Variant. Hereʼs what an updated Storybook will look like when it has both the
+Default and Horizontal variants available as separate stories.
+
+`Card.stories.tsx`
+
+```
+import { Meta, StoryObj } from '@storybook/react';
+import { Field, ImageField, LinkField } from '@sitecore-jss/sitecore-jss-nextjs';
+import { Default, Horizontal } from './Card';
+
+type Props = {
+	heading: Field<string>;
+	image: ImageField;
+	description: Field<string>;
+	ctaLink: LinkField;
+};
+
+export default {
+	title: 'Components/Card',
+	component: Default,
+	subcomponents: { Horizontal },
+	tags: ['autodocs'],
+} as Meta;
+
+const common = {
+	heading: { value: 'Card Title' } as Field<string>,
+	image: { value: { src: 'https://picsum.photos/400/200', alt: 'Image' } } as ImageField,
+	description: { value: 'Card content here.' } as Field<string>,
+	ctaLink: { value: { href: '#', text: 'Click Me' } } as LinkField,
+};
+
+export const DefaultVariant: StoryObj<Props> = {
+	render: (args) => (
+		<Default rendering={{ componentName: 'Card', dataSource: 'mock' }} params={{}} fields={args} />
+	),
+	args: common,
+};
+
+export const HorizontalVariant: StoryObj<Props> = {
+	render: (args) => (
+		<Horizontal
+			rendering={{
+			componentName: 'Card',
+			dataSource: 'mock',
+			params: { variantName: 'Horizontal' },
+		}}
+		params={{ variantName: 'Horizontal' }}
+		fields={args}
+	/>
+	),
+	args: common,
+};
+```
+
