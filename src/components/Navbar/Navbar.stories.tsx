@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import Navbar from './index'; // Adjust path based on your folder structure
+import Navbar from './index';
 
 const meta: Meta<typeof Navbar> = {
   title: 'Components/Navigation/AppleNavbar',
@@ -13,7 +13,6 @@ const meta: Meta<typeof Navbar> = {
 export default meta;
 type Story = StoryObj<typeof Navbar>;
 
-// Mock data following Sitecore JSS field structure
 const mockFields = {
   navItems: [
 	{
@@ -74,6 +73,95 @@ const mockFields = {
 			  ],
 			},
 		  },
+		  {
+			fields: {
+			  columnHeader: { value: 'Shop Mac' },
+			  links: [
+				{ fields: { link: { value: { href: '#', text: 'Help me choose' } } } },
+			  	],
+				},
+			},
+		],
+	  },
+	},
+	{
+	  id: 'ipad-menu',
+	  fields: {
+		label: { value: 'iPad' },
+		icon: { value: {} },
+		columns: [
+		  {
+			fields: {
+			  columnHeader: { value: 'Shop' },
+			  links: [
+				{ fields: { link: { value: { href: '#', text: 'Explore all iPads' } } } },
+				{ fields: { link: { value: { href: '#', text: 'iPad Pro' } } } },
+				{ fields: { link: { value: { href: '#', text: 'iPad Air' } } } }
+			  ],
+			},
+		  },
+		  {
+			fields: {
+			  columnHeader: { value: 'Shop iPad' },
+			  links: [
+				{ fields: { link: { value: { href: '#', text: 'shop iPads' } } } },
+				{ fields: { link: { value: { href: '#', text: 'iPad Accessories' } } } },
+			  ],
+			},
+		  },
+		],
+	  },
+	},
+	{
+	  id: 'watch-link',
+	  fields: {
+		label: { value: 'Watch' },
+		icon: { value: {} },
+		columns: [
+		  {
+			fields: {
+			  columnHeader: { value: 'Watch' },
+			  links: [
+				{ fields: { link: { value: { href: '#', text: 'Explore All Apple Watch' } } } },
+				{ fields: { link: { value: { href: '#', text: 'Apple Watch Series 11' } } } },
+				{ fields: { link: { value: { href: '#', text: 'Apple Watch SE3' } } } }
+			  ],
+			},
+		  },
+		  {
+			fields: {
+			  columnHeader: { value: 'Shop Watch' },
+			  links: [
+				{ fields: { link: { value: { href: '#', text: 'Shop Apple Watch' } } } },
+				{ fields: { link: { value: { href: '#', text: 'Apple Watch Brand' } } } },
+			  ],
+			},
+		  },
+		],
+	  },
+	},
+	{
+	  id: 'vision-link',
+	  fields: {
+		label: { value: 'Vision' },
+		icon: { value: {} },
+		columns: [
+		  {
+			fields: {
+			  columnHeader: { value: 'Explore Vision' },
+			  links: [
+				{ fields: { link: { value: { href: '#', text: 'Explore Apple Vision Pro' } } } }
+			  ],
+			},
+		  },
+		  {
+			fields: {
+			  columnHeader: { value: 'Shop Vision' },
+			  links: [
+				{ fields: { link: { value: { href: '#', text: 'Shop Apple Vision Pro' } } } }
+			  ],
+			},
+		  },
 		],
 	  },
 	},
@@ -82,6 +170,32 @@ const mockFields = {
 	  fields: {
 		label: { value: 'Support' },
 		icon: { value: {} },
+		columns: [],
+	  },
+	},
+	{
+	  id: 'search-link',
+	  fields: {
+		label: { value: 'Search' },
+		icon: {
+		  value: {
+			src: 'https://cdn.iconscout.com/icon/free/png-512/free-search-icon-svg-download-png-527970.png?f=webp&w=600',
+			alt: 'Apple Logo',
+		  },
+		},
+		columns: [],
+	  },
+	},
+	{
+	  id: 'shop-link',
+	  fields: {
+		label: { value: 'Shop' },
+		icon: {
+		  value: {
+			src: 'https://cdn.iconscout.com/icon/free/png-512/free-shop-icon-svg-download-png-32433.png?f=webp&w=256',
+			alt: 'Apple Logo',
+		  },
+		},
 		columns: [],
 	  },
 	},
