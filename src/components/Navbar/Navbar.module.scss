@@ -1,7 +1,7 @@
 // Variables
 $nav-height: 44px;
 $container-max-width: 1024px;
-$glass-bg: rgba(245, 245, 247, 0.8);
+$glass-bg: rgba(245, 245, 247);
 $mobile-bg: #ffffff;
 $border-color: rgba(210, 210, 215, 0.4);
 $primary-text: #1d1d1f;
@@ -229,7 +229,7 @@ $nav-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: $glass-bg;
   opacity: 0;
   visibility: hidden;
   z-index: -1;
