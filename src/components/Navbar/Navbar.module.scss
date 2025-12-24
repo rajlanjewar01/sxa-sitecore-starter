@@ -5,226 +5,265 @@ $bg-glass: rgba(245, 245, 247, 0.8);
 $text-dark: #1d1d1f;
 $text-muted: #6e6e73;
 $breakpoint-tablet: 1024px;
-$breakpoint-mobile: 768px;
 
-// --- Mixins ---
 @mixin transition-smooth {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navWrapper {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background-color: $bg-glass;
-  backdrop-filter: blur(20px);
-  z-index: 1000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	position: sticky;
+	top: 0;
+	width: 100%;
+	background-color: $bg-glass;
+	backdrop-filter: blur(20px);
+	z-index: 1000;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-  &_expanded {
-    background-color: #fff;
-    height: 100vh;
-  }
+	&_expanded {
+		@media (max-width: $breakpoint-tablet) {
+			background-color: #fff;
+			height: 100vh;
+			overflow: hidden;
+		}
+	}
 }
 
 .navbar {
-  height: $nav-height;
-  max-width: 1024px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 22px;
-
-  &__list {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    @media (max-width: $breakpoint-tablet) {
-      position: fixed;
-      top: $nav-height;
-      left: 0;
-      width: 100%;
-      height: 0;
-      flex-direction: column;
-      justify-content: flex-start;
-      background: #fff;
-      overflow: hidden;
-      visibility: hidden;
-      opacity: 0;
-      @include transition-smooth;
-      padding: 0 40px;
-
-      &_visible {
-        height: calc(100vh - #{$nav-height});
-        visibility: visible;
-        opacity: 1;
-        padding-top: 20px;
-      }
-    }
-  }
-
-  &__item {
-    height: $nav-height;
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    cursor: pointer;
-    opacity: 0.8;
-    @include transition-smooth;
-
-    &:hover {
-      opacity: 1;
-    }
-
-    @media (max-width: $breakpoint-tablet) {
-      height: auto;
-      padding: 12px 0;
-      font-size: 17px;
-      font-weight: 500;
-      width: 100%;
-    }
-  }
-
-  &__icon {
-    width: 16px;
-    height: auto;
-    filter: brightness(0);
-  }
+	height: $nav-height;
+	max-width: 1024px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 22px;
+	position: relative;
 }
 
-// --- Hamburger Button ---
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  z-index: 1001;
+.navbar__icon {
+	width: 16px;
+	height: auto;
+	display: block;
+	filter: brightness(0);
 
-  @media (max-width: $breakpoint-tablet) {
-    display: block;
-  }
+	@media (max-width: $breakpoint-tablet) {
+		width: 20px;
+	}
+}
 
-  span {
-    display: block;
-    width: 18px;
-    height: 1px;
-    background: $text-dark;
-    margin: 4px 0;
-    @include transition-smooth;
-  }
+.menuSlider {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
 
-  &_iconOpen {
-    span:first-child { transform: translateY(5px) rotate(45deg); }
-    span:last-child { transform: translateY(-5px) rotate(-45deg); }
-  }
+	@media (min-width: 1025px) {
+		position: static;
+		transform: none !important;
+		width: 100%;
+	}
+
+	@media (max-width: $breakpoint-tablet) {
+		position: fixed;
+		top: $nav-height;
+		left: 0;
+		width: 200%;
+		height: calc(100vh - #{$nav-height});
+		background: #fff;
+		visibility: hidden;
+		opacity: 0;
+		@include transition-smooth;
+
+		&_visible {
+			visibility: visible;
+			opacity: 1;
+		}
+
+		&_viewSub {
+			transform: translateX(-50%);
+		}
+	}
+}
+
+.navbar__list {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	@media (max-width: $breakpoint-tablet) {
+		width: 50%;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		padding: 20px 40px;
+		flex-shrink: 0;
+	}
+}
+
+.mobileSubView {
+	display: none;
+
+	@media (max-width: $breakpoint-tablet) {
+		display: flex;
+		width: 50%;
+		flex-direction: column;
+		padding: 20px 40px;
+		overflow-y: auto;
+		flex-shrink: 0;
+		background: #fff;
+	}
+
+	:global(.megaMenu__content) {
+		flex-direction: column !important;
+		padding: 0 !important;
+		gap: 20px !important;
+	}
+
+	:global(.megaMenu__linkMain),
+	:global(.megaMenu__linkSub) {
+		font-size: 24px !important;
+		font-weight: 600 !important;
+		color: $text-dark !important;
+		text-decoration: none;
+		display: block;
+		padding: 5px 0;
+	}
+
+	:global(.megaMenu__header) {
+		font-size: 12px !important;
+		color: $text-muted !important;
+		margin: 15px 0 5px;
+	}
+}
+
+.navbar__item {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	font-size: 12px;
+	opacity: 0.8;
+	@include transition-smooth;
+
+	&:hover { opacity: 1; }
+
+	@media (max-width: $breakpoint-tablet) {
+		width: 100%;
+		padding: 14px 0;
+		font-size: 24px;
+		font-weight: 600;
+		opacity: 1;
+	}
+}
+
+.navbar__itemContent {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: space-between;
 }
 
 .megaMenu {
-  position: absolute;
-  top: $nav-height;
-  left: 0;
-  width: 100%;
-  background: $bg-color;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  @include transition-smooth;
-  border-bottom: 0px solid #d2d2d7;
+	position: absolute;
+	top: $nav-height;
+	left: 0;
+	width: 100%;
+	background: $bg-color;
+	max-height: 0;
+	opacity: 0;
+	overflow: hidden;
+	@include transition-smooth;
 
-  &_open {
-    max-height: 800px;
-    opacity: 1;
-    border-bottom-width: 1px;
-  }
+	&_open {
+		max-height: 800px;
+		opacity: 1;
+		border-bottom: 1px solid #d2d2d7;
+	}
 
-  @media (max-width: $breakpoint-tablet) {
-    position: static;
-    background: transparent;
-    border: none;
-    
-    &_open {
-      max-height: 2000px;
-    }
-  }
+	@media (max-width: $breakpoint-tablet) {
+		display: none;
+	}
 
-  &__content {
-    max-width: 1024px;
-    margin: 0 auto;
-    padding: 40px 20px 80px;
-    display: flex;
-    gap: 60px;
+	&__content {
+		max-width: 1024px;
+		margin: 0 auto;
+		padding: 40px 20px 80px;
+		display: flex;
+		gap: 60px;
+	}
 
-    @media (max-width: $breakpoint-tablet) {
-      flex-direction: column;
-      gap: 30px;
-      padding: 20px 0;
-    }
-  }
+	&__column { display: flex; flex-direction: column; }
+	&__header { font-size: 12px; color: $text-muted; margin-bottom: 12px; }
+	&__links { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+	&__linkMain { font-size: 24px; font-weight: 600; color: $text-dark; text-decoration: none; }
+	&__linkSub { font-size: 12px; font-weight: 500; color: $text-dark; text-decoration: none; }
+}
 
-  &__column {
-    display: flex;
-    flex-direction: column;
-  }
+.backButton {
+	position: absolute;
+	left: 10px;
+	z-index: 1005;
+	background: none;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
 
-  &__header {
-    font-size: 12px;
-    color: $text-muted;
-    font-weight: 400;
-    margin-bottom: 12px;
-  }
+	@media (min-width: 1025px) { display: none; }
 
-  &__links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+	.backArrow {
+		width: 10px;
+		height: 10px;
+		border-left: 2px solid $text-dark;
+		border-bottom: 2px solid $text-dark;
+		transform: rotate(45deg);
+	}
+}
 
-  &__linkMain {
-    font-size: 24px;
-    font-weight: 600;
-    color: $text-dark;
-    text-decoration: none;
-    &:hover { text-decoration: underline; }
+.hamburger {
+	display: none;
+	@media (max-width: $breakpoint-tablet) {
+		display: block;
+		background: none;
+		border: none;
+		z-index: 1005;
+		padding: 10px;
+		position: absolute;
+		right: 10px;
+	}
 
-    @media (max-width: $breakpoint-mobile) {
-      font-size: 19px;
-    }
-  }
+	span {
+		display: block;
+		width: 18px;
+		height: 1px;
+		background: $text-dark;
+		margin: 4px 0;
+		@include transition-smooth;
+	}
 
-  &__linkSub {
-    font-size: 12px;
-    font-weight: 500;
-    color: $text-dark;
-    text-decoration: none;
-    &:hover { text-decoration: underline; }
-  }
+	&_iconOpen {
+		&:first-child { transform: translateY(2.5px) rotate(45deg); }
+		&:last-child { transform: translateY(-2.5px) rotate(-45deg); }
+	}
 }
 
 // --- Overlay ---
 .overlay {
-  position: fixed;
-  inset: 0;
-  top: $nav-height;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(20px);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.4s;
-  z-index: -1;
+	position: fixed;
+	inset: 0;
+	top: $nav-height;
+	background: rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.4s;
+	z-index: -1;
 
-  &_visible {
-    @media (min-width: $breakpoint-tablet) {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
+	&_visible {
+		@media (min-width: 1025px) {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
 }
