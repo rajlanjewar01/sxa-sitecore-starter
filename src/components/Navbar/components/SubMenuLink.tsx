@@ -1,5 +1,5 @@
 import { Link as JssLink, LinkField } from '@sitecore-jss/sitecore-jss-nextjs';
-import styles from './Navbar.module.scss';
+import styles from '../scss/Navbar.module.scss';
 
 interface SubMenuLinkProps {
   field: LinkField;

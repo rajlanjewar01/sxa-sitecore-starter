@@ -1,14 +1,26 @@
 import { Text, Image as JssImage } from '@sitecore-jss/sitecore-jss-nextjs';
-import { NavItem } from './types';
-import { useNav } from './NavContext';
-import styles from './Navbar.module.scss';
+import { NavItem } from '../types';
+import styles from '../scss/Navbar.module.scss';
 
-export const MenuItem = ({ item }: { item: NavItem }) => {
-  const { setActiveTabId, setIsOpen, activeTabId } = useNav();
+interface MenuItemProps {
+  item: NavItem;
+  isDesktop: boolean;
+  activeTabId: string | null;
+  setActiveTabId: (id: string | null) => void;
+  setIsOpen: (open: boolean) => void;
+}
+
+export const MenuItem = ({ 
+  item, 
+  isDesktop, 
+  activeTabId, 
+  setActiveTabId, 
+  setIsOpen 
+}: MenuItemProps) => {
   const hasIcon = !!item.fields.icon?.value?.src;
 
   const handleMouseEnter = () => {
-    if (window.innerWidth > 1024) {
+    if (isDesktop) {
       setActiveTabId(item.id);
       const hasColumns = (item.fields?.columns?.length ?? 0) > 0;
       setIsOpen(hasColumns);
@@ -16,7 +28,7 @@ export const MenuItem = ({ item }: { item: NavItem }) => {
   };
 
   const handleClick = () => {
-    if (window.innerWidth <= 1024) {
+    if (!isDesktop) {
       setActiveTabId(activeTabId === item.id ? null : item.id);
     }
   };

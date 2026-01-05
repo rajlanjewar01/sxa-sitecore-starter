@@ -1,7 +1,7 @@
 import { Text, Field } from '@sitecore-jss/sitecore-jss-nextjs';
 import { SubMenuLink } from './SubMenuLink';
 import { MenuColumn } from './types'; // Assume types are moved to a shared file
-import styles from './Navbar.module.scss';
+import styles from '../scss/Navbar.module.scss';
 
 interface SubMenuProps {
   columns: MenuColumn[];
