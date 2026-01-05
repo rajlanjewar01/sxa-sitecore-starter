@@ -209,12 +209,8 @@ export const Default: Story = {
     fields: mockFields,
   },
   render: (args) => (
-    <div style={{ height: '500px', background: '#fff' }}>
+    <div>
       <Navbar {...args} />
-      <div style={{ padding: '100px', textAlign: 'center' }}>
-        <h2>Scrollable Content Area</h2>
-        <p>Hover over "Store" or "Mac" to test the Mega Menu.</p>
-      </div>
     </div>
   ),
 };

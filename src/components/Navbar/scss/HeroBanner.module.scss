@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap');
+
+@mixin transition-smooth {
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heroBanner {
+	--banner-bg: #f5f5f7; 
+	--text-sub-color: #e19763;
+	--text-main-gradient: linear-gradient(180deg, #cfaa8d 0%, #8c6a4a 100%);
+
+	:global(.dark-mode) & {
+		--banner-bg: #000000;
+		--text-sub-color: #e4a87a;
+		--text-main-gradient: linear-gradient(180deg, #ff9f57 0%, #c66b30 100%);
+	}
+
+	height: 100vh;
+	background-color: var(--banner-bg);
+	padding: 60px 0; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	overflow: hidden;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	@include transition-smooth;
+}
+
+.subTitle {
+	font-size: 24px;
+	font-weight: 600;
+	margin: 0 0 5px 0;
+	color: var(--text-sub-color);
+	@include transition-smooth;
+
+	@media (min-width: 768px) {
+		font-size: 32px;
+	}
+}
+
+.mainTitle {
+	font-family: "BBH Bartle", sans-serif;
+	font-size: 60px;
+	font-weight: 900;
+	margin: 0;
+	line-height: 0.85;
+	text-transform: uppercase;
+	background: var(--text-main-gradient);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+
+	@media (min-width: 768px) {
+		font-size: 160px;
+		letter-spacing: -4px;
+	}
+}
+
+.productImageContainer {
+	width: 100%;
+	max-width: 1000px;
+	position: relative;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+}
+
+.productImage {
+	width: 100%;
+	height: auto;
+	display: block;
+}

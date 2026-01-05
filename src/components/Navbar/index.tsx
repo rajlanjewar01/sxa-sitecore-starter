@@ -3,6 +3,7 @@ import { ComponentProps } from 'lib/component-props';
 import { NavItem } from './types';
 import { MenuItem } from './components/MenuItem';
 import { SubMenu } from './components/SubMenu';
+import HeroBanner from './components/HeroBanner';
 import { useMediaQuery } from './hooks/useMediaQuery'; 
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 
@@ -103,6 +104,7 @@ const AppleNavbar = ({ fields }: NavbarProps): JSX.Element => {
 	return (
 		<ThemeProvider>
 			<NavbarContent navItems={fields?.navItems || []} />
+			<HeroBanner />
 		</ThemeProvider>
 	);
 };
