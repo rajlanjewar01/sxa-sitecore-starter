@@ -1,9 +1,5 @@
-// --- Variables ---
+// --- Variables & Mixins ---
 $nav-height: 44px;
-$bg-color: #f5f5f7;
-$bg-glass: rgba(245, 245, 247, 0.8);
-$text-dark: #1d1d1f;
-$text-muted: #6e6e73;
 $breakpoint-tablet: 1024px;
 
 @mixin transition-smooth {
@@ -11,18 +7,39 @@ $breakpoint-tablet: 1024px;
 }
 
 .navWrapper {
+	// --- Theme Variables ---
+	--nav-bg: rgba(245, 245, 247, 0.8);
+	--nav-text: #1d1d1f;
+	--nav-text-muted: #6e6e73;
+	--nav-border: rgba(0, 0, 0, 0.1);
+	--mega-bg: #f5f5f7;
+	--overlay-bg: rgba(0, 0, 0, 0.4);
+	--mobile-bg: #ffffff;
+
+	:global(.dark-mode) & {
+		--nav-bg: rgba(22, 22, 23, 0.8);
+		--nav-text: #f5f5f7;
+		--nav-text-muted: #a1a1a6;
+		--nav-border: rgba(255, 255, 255, 0.1);
+		--mega-bg: #161617;
+		--overlay-bg: rgba(0, 0, 0, 0.6);
+		--mobile-bg: #161617;
+	}
+
 	position: sticky;
 	top: 0;
 	width: 100%;
-	background-color: $bg-glass;
+	background-color: var(--nav-bg);
 	backdrop-filter: blur(20px);
 	z-index: 1000;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid var(--nav-border);
+	color: var(--nav-text);
+	@include transition-smooth;
 
 	&_expanded {
 		@media (max-width: $breakpoint-tablet) {
-			background-color: #fff;
+			background-color: var(--mobile-bg);
 			height: 100vh;
 			overflow: hidden;
 		}
@@ -46,6 +63,10 @@ $breakpoint-tablet: 1024px;
 	display: block;
 	filter: brightness(0);
 
+	:global(.dark-mode) & {
+		filter: brightness(0) invert(1);
+	}
+
 	@media (max-width: $breakpoint-tablet) {
 		width: 20px;
 	}
@@ -68,7 +89,7 @@ $breakpoint-tablet: 1024px;
 		left: 0;
 		width: 200%;
 		height: calc(100vh - #{$nav-height});
-		background: #fff;
+		background: var(--mobile-bg);
 		visibility: hidden;
 		opacity: 0;
 		@include transition-smooth;
@@ -104,48 +125,13 @@ $breakpoint-tablet: 1024px;
 	}
 }
 
-.mobileSubView {
-	display: none;
-
-	@media (max-width: $breakpoint-tablet) {
-		display: flex;
-		width: 50%;
-		flex-direction: column;
-		padding: 20px 40px;
-		overflow-y: auto;
-		flex-shrink: 0;
-		background: #fff;
-	}
-
-	:global(.megaMenu__content) {
-		flex-direction: column !important;
-		padding: 0 !important;
-		gap: 20px !important;
-	}
-
-	:global(.megaMenu__linkMain),
-	:global(.megaMenu__linkSub) {
-		font-size: 24px !important;
-		font-weight: 600 !important;
-		color: $text-dark !important;
-		text-decoration: none;
-		display: block;
-		padding: 5px 0;
-	}
-
-	:global(.megaMenu__header) {
-		font-size: 12px !important;
-		color: $text-muted !important;
-		margin: 15px 0 5px;
-	}
-}
-
 .navbar__item {
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	font-size: 12px;
 	opacity: 0.8;
+	color: var(--nav-text);
 	@include transition-smooth;
 
 	&:hover { opacity: 1; }
@@ -159,11 +145,50 @@ $breakpoint-tablet: 1024px;
 	}
 }
 
-.navbar__itemContent {
+.themeToggle {
+	font-size: 16px;
 	display: flex;
 	align-items: center;
-	width: 100%;
-	justify-content: space-between;
+	justify-content: center;
+	@media (max-width: $breakpoint-tablet) {
+		font-size: 24px;
+	}
+}
+
+.mobileSubView {
+	display: none;
+
+	@media (max-width: $breakpoint-tablet) {
+		display: flex;
+		width: 50%;
+		flex-direction: column;
+		padding: 20px 40px;
+		overflow-y: auto;
+		flex-shrink: 0;
+		background: var(--mobile-bg);
+	}
+
+	:global(.megaMenu__content) {
+		flex-direction: column !important;
+		padding: 0 !important;
+		gap: 20px !important;
+	}
+
+	:global(.megaMenu__linkMain),
+	:global(.megaMenu__linkSub) {
+		font-size: 24px !important;
+		font-weight: 600 !important;
+		color: var(--nav-text) !important;
+		text-decoration: none;
+		display: block;
+		padding: 5px 0;
+	}
+
+	:global(.megaMenu__header) {
+		font-size: 12px !important;
+		color: var(--nav-text-muted) !important;
+		margin: 15px 0 5px;
+	}
 }
 
 .megaMenu {
@@ -171,7 +196,7 @@ $breakpoint-tablet: 1024px;
 	top: $nav-height;
 	left: 0;
 	width: 100%;
-	background: $bg-color;
+	background: var(--mega-bg);
 	max-height: 0;
 	opacity: 0;
 	overflow: hidden;
@@ -180,7 +205,7 @@ $breakpoint-tablet: 1024px;
 	&_open {
 		max-height: 800px;
 		opacity: 1;
-		border-bottom: 1px solid #d2d2d7;
+		border-bottom: 1px solid var(--nav-border);
 	}
 
 	@media (max-width: $breakpoint-tablet) {
@@ -196,10 +221,10 @@ $breakpoint-tablet: 1024px;
 	}
 
 	&__column { display: flex; flex-direction: column; }
-	&__header { font-size: 12px; color: $text-muted; margin-bottom: 12px; }
+	&__header { font-size: 12px; color: var(--nav-text-muted); margin-bottom: 12px; }
 	&__links { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-	&__linkMain { font-size: 24px; font-weight: 600; color: $text-dark; text-decoration: none; }
-	&__linkSub { font-size: 12px; font-weight: 500; color: $text-dark; text-decoration: none; }
+	&__linkMain { font-size: 24px; font-weight: 600; color: var(--nav-text); text-decoration: none; }
+	&__linkSub { font-size: 12px; font-weight: 500; color: var(--nav-text); text-decoration: none; }
 }
 
 .backButton {
@@ -216,8 +241,8 @@ $breakpoint-tablet: 1024px;
 	.backArrow {
 		width: 10px;
 		height: 10px;
-		border-left: 2px solid $text-dark;
-		border-bottom: 2px solid $text-dark;
+		border-left: 2px solid var(--nav-text);
+		border-bottom: 2px solid var(--nav-text);
 		transform: rotate(45deg);
 	}
 }
@@ -238,7 +263,7 @@ $breakpoint-tablet: 1024px;
 		display: block;
 		width: 18px;
 		height: 1px;
-		background: $text-dark;
+		background: var(--nav-text);
 		margin: 4px 0;
 		@include transition-smooth;
 	}
@@ -249,12 +274,11 @@ $breakpoint-tablet: 1024px;
 	}
 }
 
-// --- Overlay ---
 .overlay {
 	position: fixed;
 	inset: 0;
 	top: $nav-height;
-	background: rgba(0, 0, 0, 0.4);
+	background: var(--overlay-bg);
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 0.4s;
