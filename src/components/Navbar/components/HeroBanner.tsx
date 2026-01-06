@@ -3,10 +3,10 @@ import { useTheme } from '../context/ThemeContext';
 import styles from '../scss/HeroBanner.module.scss';
 
 const HeroBanner = () => {
-	useTheme(); 
+	const { theme } = useTheme();
 
 	return (
-		<section className={styles.heroBanner}>
+		<section className={`${styles.heroBanner} ${theme === 'dark' ? styles.dark : ''}`}>
 			<div className={styles.textContent}>
 				<h2 className={styles.subTitle}>iPhone 17</h2>
 				<h1 className={styles.mainTitle}>PRO</h1>

@@ -277,3 +277,29 @@ export const HorizontalVariant: StoryObj<Props> = {
 };
 ```
 
+# useRef
+
+## Feature: Search Bar Auto-Focus
+In the Search Navigation design, clicking the search icon triggers an overlay. To ensure the user experience is "Apple-like," the cursor must be active immediately without an extra click.
+
+### Implementation Steps:
+
+1.  **Define the Ref**: 
+    Inside `SearchModal.tsx`, we initialize `inputRef` with a type of `HTMLInputElement`.
+    ```tsx
+    const inputRef = useRef<HTMLInputElement>(null);
+    ```
+
+2.  **Bind to Input**: 
+    The `ref` attribute is added to the `<input />` element. This creates a direct link between the React logic and the DOM node.
+
+3.  **The Auto-Focus Effect**: 
+    We use `useEffect` with `isOpen` as a dependency. When the modal transitions from closed to open, the hook fires, checking if the ref exists and calling `.focus()`.
+    ```tsx
+    useEffect(() => {
+      if (isOpen && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, [isOpen]);
+    ```
+
