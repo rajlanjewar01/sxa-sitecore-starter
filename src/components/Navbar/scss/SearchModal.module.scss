@@ -1,25 +1,67 @@
+// Variables
+$primary-color: #333336;
+$dark-color: #111;
+$light-bg: rgba(245, 245, 247, 0.8);
+$border-light: rgba(255, 255, 255, 0.2);
+$border-darker: rgba(255, 255, 255, 0.1);
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$font-size-large: 24px;
+$font-size-medium: 20px;
+$font-size-small: 12px;
+$transition-duration: 0.4s;
+$cubic-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+$z-index-modal: 2000;
+$max-width: 800px;
+$spacing-large: 40px;
+$spacing-medium: 30px;
+$spacing-small: 15px;
+$spacing-xs: 10px;
+$spacing-xxs: 5px;
+$padding-top: 50px;
+$opacity-hover: 0.7;
+$blur-amount: 20px;
+$gray-text: rgb(110, 110, 115);
+$black: #000;
+
 @mixin transition-smooth {
-	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: all $transition-duration $cubic-bezier;
+}
+
+@mixin transparent-button {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+@mixin transparent-input {
+	background: transparent;
+	border: none;
+	outline: none;
+}
+
+@mixin hover-opacity {
+	opacity: $opacity-hover;
+	&:hover { opacity: 1; }
 }
 
 .searchOverlay {
 	position: fixed;
 	inset: 0;
 	top: 0;
-	background: rgba(245, 245, 247, 0.8);
-	backdrop-filter: blur(20px);
-	z-index: 2000;
+	background: $light-bg;
+	backdrop-filter: blur($blur-amount);
+	z-index: $z-index-modal;
 	display: flex;
 	justify-content: center;
-	padding-top: 50px;
+	padding-top: $padding-top;
 	@include transition-smooth;
 }
 
 .searchContainer {
 	width: 100%;
-	max-width: 800px;
-	padding: 0 40px;
-	animation: slideDown 0.4s ease-out;
+	max-width: $max-width;
+	padding: 0 $spacing-large;
+	animation: slideDown $transition-duration ease-out;
 }
 
 @keyframes slideDown {
@@ -30,65 +72,67 @@
 .searchBar {
 	display: flex;
 	align-items: center;
-	gap: 15px;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-	padding-bottom: 10px;
+	gap: $spacing-small;
+	border-bottom: 1px solid $border-light;
+	padding-bottom: $spacing-xs;
 
 	:global(.dark-mode) & {
-		border-bottom-color: rgba(255, 255, 255, 0.1);
+		border-bottom-color: $border-darker;
 	}
 }
 
 .searchInput {
-	background: transparent;
-	border: none;
-	outline: none;
-	color: #000;
-	font-size: 24px;
+	@include transparent-input;
+	color: $black;
+	font-size: $font-size-large;
 	font-weight: 500;
 	width: 100%;
 	font-family: inherit;
 
 	&::placeholder {
-		color: #333336;
+		color: $primary-color;
 	}
 }
 
-.searchIcon { font-size: 20px; filter: grayscale(1) brightness(2); }
+.searchIcon { font-size: $font-size-medium; filter: grayscale(1) brightness(2); }
 
 .closeButton {
-	background: none;
-	border: none;
-	color: #333336;
-	font-size: 20px;
-	cursor: pointer;
-	opacity: 0.7;
-	&:hover { opacity: 1; }
+	@include transparent-button;
+	@include hover-opacity;
+	color: $primary-color;
+	font-size: $font-size-medium;
 }
 
 .quickLinks {
-	margin-top: 30px;
-	color: #111;
+	margin-top: $spacing-medium;
+	color: $dark-color;
 
 	h4 {
-		font-size: 12px;
+		font-size: $font-size-small;
 		text-transform: uppercase;
-		color: rgb(110, 110, 115);
-		margin-bottom: 15px;
+		color: $gray-text;
+		margin-bottom: $spacing-small;
 	}
 
 	ul {
 		list-style: none;
 		padding: 0;
 		li {
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;;
-			padding: 8px 0;
-			font-size: 12px;
-			font-weight: 600;
-			cursor: pointer;
+			a {
+				color: $primary-color;
+				font-family: $font-family;
+				font-size: $font-size-small;
+				font-weight: 600;
+				cursor: pointer;
+				text-decoration: none;
+
+				&:hover { 
+					color: $dark-color;
+				}
+			}
 		}
 		svg {
-			margin-right: 5px;
+			margin-right: $spacing-xxs;
 		}
 	}
 }
