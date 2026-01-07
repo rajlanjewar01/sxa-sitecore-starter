@@ -9,6 +9,7 @@ interface MenuItemProps {
   setActiveTabId: (id: string | null) => void;
   setIsOpen: (open: boolean) => void;
   onSearchClick?: () => void;
+  onStoreClick?: () => void;
 }
 
 export const MenuItem = ({ 
@@ -17,7 +18,8 @@ export const MenuItem = ({
   activeTabId, 
   setActiveTabId, 
   setIsOpen,
-  onSearchClick
+  onSearchClick,
+  onStoreClick
 }: MenuItemProps) => {
   const hasIcon = !!item.fields.icon?.value?.src;
   const isSearch = item.id === 'search-link';
@@ -34,6 +36,12 @@ export const MenuItem = ({
     if (isSearch && onSearchClick) {
       e.preventDefault();
       onSearchClick();
+      return;
+    }
+
+    if (onStoreClick) {
+      e.preventDefault();
+      onStoreClick();
       return;
     }
 
@@ -54,7 +62,7 @@ export const MenuItem = ({
         ) : (
           <Text field={item.fields.label} encode={false} />
         )}
-        {!isSearch && <span className={styles.mobileChevron}></span>}
+        {!isSearch && item.id !== 'store-link' && <span className={styles.mobileChevron}></span>}
       </div>
     </li>
   );

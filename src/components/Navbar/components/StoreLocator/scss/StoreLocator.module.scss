@@ -1,0 +1,165 @@
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+.storeLocator {
+	--bg-color: #f5f5f7;
+	--text-primary: #1d1d1f;
+	--text-secondary: #6e6e73;
+	--link-color: #0066cc;
+	--card-bg: #ffffff;
+
+	:global(.dark-mode) & {
+	--bg-color: #000000;
+	--text-primary: #f5f5f7;
+	--text-secondary: #a1a1a6;
+	--card-bg: #1c1c1e;
+	}
+
+	background-color: var(--bg-color);
+	padding: 40px 0 80px;
+	font-family: $font-family;
+	width: 100%;
+}
+
+.container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0 22px;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 60px;
+	gap: 20px;
+
+	@media (max-width: 768px) {
+	flex-direction: column;
+	align-items: flex-start;
+	}
+}
+
+.title {
+	font-size: 24px;
+	font-weight: 600;
+	color: var(--text-primary);
+	margin: 0;
+}
+
+.searchWrapper {
+	flex: 1;
+	max-width: 450px;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.searchIcon {
+	position: absolute;
+	left: 2%;
+	text-align: left;
+	background-size: 25px;
+	background-repeat: no-repeat;
+	width: 25px;
+	height: 25px;
+	background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20enable-background%3D%22new%200%200%2025%2025%22%20viewBox%3D%220%200%2025%2025%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22rgb%28134%2C134%2C139%29%22%20style%3D%22%22%3E%3Cpath%20d%3D%22m0%200h25v25h-25z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22m20.7443%2019.542-4.5767-4.4741c-.0197-.0192-.0453-.0261-.0663-.043.8847-1.1525%201.4169-2.5898%201.4169-4.1523%200-3.7686-3.0625-6.834-6.8267-6.834s-6.8267%203.0654-6.8267%206.834%203.0625%206.8345%206.8267%206.8345c1.6033%200%203.0762-.5599%204.2425-1.4897.0176.0209.0251.0468.0451.0663l4.5767%204.4741c.1655.1616.3799.2422.5942.2422.2207%200%20.4414-.0854.6079-.2559.3282-.3359.3218-.874-.0136-1.2021zm-15.7798-8.6694c0-3.1616%202.5693-5.7344%205.7271-5.7344s5.727%202.5728%205.727%205.7344c0%203.1621-2.5693%205.7349-5.727%205.7349s-5.7271-2.5728-5.7271-5.7349z%22%2F%3E%3C%2Fsvg%3E);
+}
+
+
+.searchInput {
+	width: 100%;
+	padding: 0 12px 0 40px;
+	border-radius: 10px;
+	border-color: #86868b;
+	background: var(--card-bg);
+	font-size: 16px;
+	color: var(--text-primary);
+	outline: none;
+	height: 3.2rem;
+	border: 1px solid #86868b;
+
+	&:focus {
+		border-color: var(--link-color);
+		box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+	}
+}
+
+.listLink {
+	color: var(--link-color);
+	text-decoration: none;
+	font-size: 14px;
+	&:hover { text-decoration: underline; }
+}
+
+.resultsHeader {
+	text-align: center;
+	margin-bottom: 40px;
+	h1 {
+	font-size: 40px;
+	font-weight: 600;
+	color: var(--text-primary);
+	}
+}
+
+.cardGrid {
+	display: flex;
+	gap: 24px;
+	overflow-x: auto;
+	padding: 10px 5px 30px;
+	scroll-behavior: smooth;
+	position: relative;
+	-webkit-overflow-scrolling: touch;
+
+	&::-webkit-scrollbar { display: none; }
+}
+
+.card {
+	flex: 0 0 31.5%; // Approx 3 cards per view
+	background: var(--card-bg);
+	border-radius: 18px;
+	overflow: hidden;
+	box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+	transition: transform 0.3s ease;
+
+	&:hover { transform: translateY(-5px); }
+
+	@media (max-width: 1024px) { flex: 0 0 45%; }
+	@media (max-width: 768px) { flex: 0 0 85%; }
+}
+
+.imageWrapper {
+	width: 100%;
+	height: 200px;
+	overflow: hidden;
+}
+
+.storeImage {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.cardContent {
+	padding: 25px;
+}
+
+.storeName {
+	font-size: 19px;
+	font-weight: 600;
+	margin: 0 0 10px;
+	color: var(--text-primary);
+}
+
+.storeAddress {
+	font-size: 14px;
+	color: var(--text-secondary);
+	line-height: 1.4;
+	margin-bottom: 20px;
+	min-height: 40px;
+}
+
+.storeStatus {
+	font-size: 14px;
+	color: var(--text-secondary);
+	margin: 0;
+}
