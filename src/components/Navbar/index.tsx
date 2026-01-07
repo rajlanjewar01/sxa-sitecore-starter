@@ -4,6 +4,7 @@ import { NavItem } from './types';
 import { MenuItem } from './components/MenuItem';
 import { SubMenu } from './components/SubMenu';
 import { SearchModal } from './components/SearchModal';
+import { StoreLocator } from './components/StoreLocator';
 import HeroBanner from './components/HeroBanner';
 import { useMediaQuery } from './hooks/useMediaQuery'; 
 import { ThemeProvider, useTheme } from './context/ThemeContext';
@@ -21,6 +22,7 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
+	const [isStoreLocatorOpen, setIsStoreLocatorOpen] = useState(false);
 
 	const isDesktop = useMediaQuery('(min-width: 1025px)');
 
@@ -36,7 +38,15 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 		}
 	};
 
+	const handleStoreClick = () => {
+		setIsStoreLocatorOpen(!isStoreLocatorOpen);
+		setIsOpen(false);
+		setIsSearchOpen(false);
+		if (!isDesktop) setIsMobileMenuOpen(false);
+	};
+
 	return (
+	<>
 		<header 
 			className={`
 				${styles.navWrapper} 
@@ -75,6 +85,7 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 								setActiveTabId={setActiveTabId}
 								setIsOpen={setIsOpen}
 								onSearchClick={() => setIsSearchOpen(true)}
+								onStoreClick={item.id === 'store-link' ? handleStoreClick : undefined}
 							/>
 						))}
 
@@ -102,6 +113,11 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 				onMouseEnter={handleMouseLeave}
 			/>
 		</header>
+
+		<StoreLocator isOpen={isStoreLocatorOpen} />
+
+		{!isStoreLocatorOpen && <HeroBanner />}
+	</>
 	);
 };
 
@@ -109,7 +125,6 @@ const AppleNavbar = ({ fields }: NavbarProps): JSX.Element => {
 	return (
 		<ThemeProvider>
 			<NavbarContent navItems={fields?.navItems || []} />
-			<HeroBanner />
 		</ThemeProvider>
 	);
 };
