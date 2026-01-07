@@ -1,135 +1,263 @@
+// ============================================
+// Variables
+// ============================================
 $font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-.storeLocator {
-	--bg-color: #f5f5f7;
-	--text-primary: #1d1d1f;
-	--text-secondary: #6e6e73;
-	--link-color: #0066cc;
-	--card-bg: #ffffff;
+// Colors - Light Theme
+$color-bg-light: #f5f5f7;
+$color-text-primary-light: #1d1d1f;
+$color-text-secondary-light: #6e6e73;
+$color-link: #0066cc;
+$color-card-bg-light: #ffffff;
+$color-border: #86868b;
 
+// Colors - Dark Theme
+$color-bg-dark: #000000;
+$color-text-primary-dark: #f5f5f7;
+$color-text-secondary-dark: #a1a1a6;
+$color-card-bg-dark: #1c1c1e;
+
+// Spacing
+$spacing-xs: 10px;
+$spacing-sm: 20px;
+$spacing-md: 25px;
+$spacing-lg: 40px;
+$spacing-xl: 60px;
+$spacing-xxl: 80px;
+
+// Layout
+$container-max-width: 1100px;
+$container-padding: 22px;
+$search-max-width: 450px;
+$card-image-height: 200px;
+
+// Typography
+$font-size-xs: 14px;
+$font-size-base: 16px;
+$font-size-md: 19px;
+$font-size-lg: 24px;
+$font-size-xl: 40px;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$line-height-base: 1.4;
+
+// Border & Radius
+$border-radius-sm: 10px;
+$border-radius-lg: 18px;
+$border-width: 1px;
+
+// Shadows
+$shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+$shadow-focus: 0 0 0 4px rgba(0, 102, 204, 0.1);
+
+// Transitions
+$transition-base: 0.3s ease;
+$transition-transform: transform $transition-base;
+
+// Breakpoints
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+// Icon Sizes
+$icon-size: 25px;
+$icon-position-left: 2%;
+
+// ============================================
+// Mixins
+// ============================================
+@mixin respond-to($breakpoint) {
+	@media (max-width: $breakpoint) {
+		@content;
+	}
+}
+
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+}
+
+@mixin flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+@mixin text-style($size, $weight: normal, $color: var(--text-primary)) {
+	font-size: $size;
+	font-weight: $weight;
+	color: $color;
+}
+
+@mixin link-style {
+	color: var(--link-color);
+	text-decoration: none;
+	
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+@mixin card-hover {
+	transition: $transition-transform;
+	
+	&:hover {
+		transform: translateY(-5px);
+	}
+}
+
+@mixin scrollbar-hidden {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	-webkit-overflow-scrolling: touch;
+}
+
+@mixin input-focus {
+	&:focus {
+		border-color: var(--link-color);
+		box-shadow: $shadow-focus;
+		outline: none;
+	}
+}
+
+// ============================================
+// Component Styles
+// ============================================
+.storeLocator {
+	// CSS Custom Properties for Theme Support
+	--bg-color: #{$color-bg-light};
+	--text-primary: #{$color-text-primary-light};
+	--text-secondary: #{$color-text-secondary-light};
+	--link-color: #{$color-link};
+	--card-bg: #{$color-card-bg-light};
+
+	// Dark Mode Support
 	:global(.dark-mode) & {
-	--bg-color: #000000;
-	--text-primary: #f5f5f7;
-	--text-secondary: #a1a1a6;
-	--card-bg: #1c1c1e;
+		--bg-color: #{$color-bg-dark};
+		--text-primary: #{$color-text-primary-dark};
+		--text-secondary: #{$color-text-secondary-dark};
+		--card-bg: #{$color-card-bg-dark};
 	}
 
+	// Base Styles
 	background-color: var(--bg-color);
-	padding: 40px 0 80px;
+	padding: $spacing-lg 0 $spacing-xxl;
 	font-family: $font-family;
 	width: 100%;
 }
 
 .container {
-	max-width: 1100px;
+	max-width: $container-max-width;
 	margin: 0 auto;
-	padding: 0 22px;
+	padding: 0 $container-padding;
 }
 
+// ============================================
+// Header Section
+// ============================================
 .header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 60px;
-	gap: 20px;
+	@include flex-between;
+	margin-bottom: $spacing-xl;
+	gap: $spacing-sm;
 
-	@media (max-width: 768px) {
-	flex-direction: column;
-	align-items: flex-start;
+	@include respond-to($breakpoint-tablet) {
+		flex-direction: column;
+		align-items: flex-start;
 	}
 }
 
 .title {
-	font-size: 24px;
-	font-weight: 600;
-	color: var(--text-primary);
+	@include text-style($font-size-lg, $font-weight-semibold);
 	margin: 0;
 }
 
+// ============================================
+// Search Section
+// ============================================
 .searchWrapper {
 	flex: 1;
-	max-width: 450px;
+	max-width: $search-max-width;
 	position: relative;
-	display: flex;
-	align-items: center;
+	@include flex-center;
 }
 
 .searchIcon {
 	position: absolute;
-	left: 2%;
-	text-align: left;
-	background-size: 25px;
+	left: $icon-position-left;
+	width: $icon-size;
+	height: $icon-size;
+	background-size: $icon-size;
 	background-repeat: no-repeat;
-	width: 25px;
-	height: 25px;
 	background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20enable-background%3D%22new%200%200%2025%2025%22%20viewBox%3D%220%200%2025%2025%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22rgb%28134%2C134%2C139%29%22%20style%3D%22%22%3E%3Cpath%20d%3D%22m0%200h25v25h-25z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22m20.7443%2019.542-4.5767-4.4741c-.0197-.0192-.0453-.0261-.0663-.043.8847-1.1525%201.4169-2.5898%201.4169-4.1523%200-3.7686-3.0625-6.834-6.8267-6.834s-6.8267%203.0654-6.8267%206.834%203.0625%206.8345%206.8267%206.8345c1.6033%200%203.0762-.5599%204.2425-1.4897.0176.0209.0251.0468.0451.0663l4.5767%204.4741c.1655.1616.3799.2422.5942.2422.2207%200%20.4414-.0854.6079-.2559.3282-.3359.3218-.874-.0136-1.2021zm-15.7798-8.6694c0-3.1616%202.5693-5.7344%205.7271-5.7344s5.727%202.5728%205.727%205.7344c0%203.1621-2.5693%205.7349-5.727%205.7349s-5.7271-2.5728-5.7271-5.7349z%22%2F%3E%3C%2Fsvg%3E);
 }
 
-
 .searchInput {
 	width: 100%;
-	padding: 0 12px 0 40px;
-	border-radius: 10px;
-	border-color: #86868b;
+	padding: 0 $spacing-xs 0 ($icon-size + $spacing-xs);
+	border-radius: $border-radius-sm;
+	border: $border-width solid $color-border;
 	background: var(--card-bg);
-	font-size: 16px;
-	color: var(--text-primary);
-	outline: none;
+	@include text-style($font-size-base, normal, var(--text-primary));
 	height: 3.2rem;
-	border: 1px solid #86868b;
-
-	&:focus {
-		border-color: var(--link-color);
-		box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
-	}
+	@include input-focus;
 }
 
 .listLink {
-	color: var(--link-color);
-	text-decoration: none;
-	font-size: 14px;
-	&:hover { text-decoration: underline; }
+	@include link-style;
+	@include text-style($font-size-xs);
 }
 
+// ============================================
+// Results Section
+// ============================================
 .resultsHeader {
 	text-align: center;
-	margin-bottom: 40px;
+	margin-bottom: $spacing-lg;
+
 	h1 {
-	font-size: 40px;
-	font-weight: 600;
-	color: var(--text-primary);
+		@include text-style($font-size-xl, $font-weight-semibold);
 	}
 }
 
 .cardGrid {
 	display: flex;
-	gap: 24px;
+	gap: $spacing-lg;
 	overflow-x: auto;
-	padding: 10px 5px 30px;
+	padding: $spacing-xs 5px ($spacing-lg + $spacing-xs);
 	scroll-behavior: smooth;
 	position: relative;
-	-webkit-overflow-scrolling: touch;
-
-	&::-webkit-scrollbar { display: none; }
+	@include scrollbar-hidden;
 }
 
+.noResults {
+	text-align: center;
+	padding: $spacing-xl $spacing-sm;
+	@include text-style($font-size-md, $font-weight-medium, var(--text-secondary));
+}
+
+// ============================================
+// Card Component
+// ============================================
 .card {
-	flex: 0 0 31.5%; // Approx 3 cards per view
+	flex: 0 0 31.5%;
 	background: var(--card-bg);
-	border-radius: 18px;
+	border-radius: $border-radius-lg;
 	overflow: hidden;
-	box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-	transition: transform 0.3s ease;
+	box-shadow: $shadow-card;
+	@include card-hover;
 
-	&:hover { transform: translateY(-5px); }
+	@include respond-to($breakpoint-desktop) {
+		flex: 0 0 45%;
+	}
 
-	@media (max-width: 1024px) { flex: 0 0 45%; }
-	@media (max-width: 768px) { flex: 0 0 85%; }
+	@include respond-to($breakpoint-tablet) {
+		flex: 0 0 85%;
+	}
 }
 
 .imageWrapper {
 	width: 100%;
-	height: 200px;
+	height: $card-image-height;
 	overflow: hidden;
 }
 
@@ -140,26 +268,22 @@ $font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .cardContent {
-	padding: 25px;
+	padding: $spacing-md;
 }
 
 .storeName {
-	font-size: 19px;
-	font-weight: 600;
-	margin: 0 0 10px;
-	color: var(--text-primary);
+	@include text-style($font-size-md, $font-weight-semibold);
+	margin: 0 0 $spacing-xs;
 }
 
 .storeAddress {
-	font-size: 14px;
-	color: var(--text-secondary);
-	line-height: 1.4;
-	margin-bottom: 20px;
-	min-height: 40px;
+	@include text-style($font-size-xs, normal, var(--text-secondary));
+	line-height: $line-height-base;
+	margin-bottom: $spacing-sm;
+	min-height: $spacing-lg;
 }
 
 .storeStatus {
-	font-size: 14px;
-	color: var(--text-secondary);
+	@include text-style($font-size-xs, normal, var(--text-secondary));
 	margin: 0;
 }
