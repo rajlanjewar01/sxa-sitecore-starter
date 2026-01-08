@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { StoreCard } from './StoreCard';
 import styles from '../../scss/StoreLocator.module.scss';
 
@@ -35,19 +35,19 @@ export const StoreLocator = forwardRef<HTMLElement | null, StoreLocatorProps>(
 	const [searchTerm, setSearchTerm] = useState('');
 	const [filteredStores, setFilteredStores] = useState(stores);
 
-	if (!isOpen) return null;
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			const results = stores.filter(store =>
+				store.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				store.address.toLowerCase().includes(searchTerm.toLowerCase())
+			);
+			setFilteredStores(results);
+		}, 500); // 500ms debounce
 
-	const handleSearch = (e: React.FormEvent) => {
-		e.preventDefault();
-		
-		// Filter logic: Case-insensitive check on name or address
-		const results = stores.filter(store => 
-		store.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-		store.address.toLowerCase().includes(searchTerm.toLowerCase())
-		);
-		
-		setFilteredStores(results);
-	};
+		return () => clearTimeout(timer);
+	}, [searchTerm]);
+
+	if (!isOpen) return null;
 
 	return (
 		<section className={styles.storeLocator} ref={ref as any}>
@@ -55,15 +55,15 @@ export const StoreLocator = forwardRef<HTMLElement | null, StoreLocatorProps>(
 			{/* Top Header Section */}
 			<div className={styles.header}>
 				<h2 className={styles.title}>Find a store</h2>
-				<form className={styles.searchWrapper} onSubmit={handleSearch}>
-				<span className={styles.searchIcon}></span>
-				<input 
-					type="text" 
-					placeholder="Search by location, ZIP, or store name" 
-					className={styles.searchInput}
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-				/>
+				<form className={styles.searchWrapper}>
+					<span className={styles.searchIcon}></span>
+					<input 
+						type="text" 
+						placeholder="Search by location, ZIP, or store name" 
+						className={styles.searchInput}
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+					/>
 				</form>
 				<a href="#" className={styles.listLink}>Complete store list &gt;</a>
 			</div>
