@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { ComponentProps } from 'lib/component-props';
 import { NavItem } from './types';
 import { MenuItem } from './components/MenuItem';
@@ -23,6 +23,7 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [isStoreLocatorOpen, setIsStoreLocatorOpen] = useState(false);
+	const storeLocatorRef = useRef<HTMLElement | null>(null);
 
 	const isDesktop = useMediaQuery('(min-width: 1025px)');
 
@@ -43,6 +44,13 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 		setIsOpen(false);
 		setIsSearchOpen(false);
 		if (!isDesktop) setIsMobileMenuOpen(false);
+
+		if (!isStoreLocatorOpen) {
+			// Scroll to the store locator section when it opens
+			setTimeout(() => {
+				storeLocatorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}, 0);
+		}
 	};
 
 	return (
@@ -114,7 +122,7 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 			/>
 		</header>
 
-		<StoreLocator isOpen={isStoreLocatorOpen} />
+		<StoreLocator isOpen={isStoreLocatorOpen} ref={storeLocatorRef} />
 
 		{!isStoreLocatorOpen && <HeroBanner />}
 	</>

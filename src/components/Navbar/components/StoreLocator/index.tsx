@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { StoreCard } from './StoreCard';
 import styles from './scss/StoreLocator.module.scss';
 
@@ -30,9 +30,9 @@ interface StoreLocatorProps {
   isOpen: boolean;
 }
 
-export const StoreLocator = ({ isOpen }: StoreLocatorProps) => {
+export const StoreLocator = forwardRef<HTMLElement | null, StoreLocatorProps>(
+({ isOpen }, ref) => {
   const [searchTerm, setSearchTerm] = useState('');
-  // State for displayed results
   const [filteredStores, setFilteredStores] = useState(stores);
 
   if (!isOpen) return null;
@@ -50,7 +50,7 @@ export const StoreLocator = ({ isOpen }: StoreLocatorProps) => {
   };
 
   return (
-	<section className={styles.storeLocator}>
+	<section className={styles.storeLocator} ref={ref as any}>
 	  <div className={styles.container}>
 		{/* Top Header Section */}
 		<div className={styles.header}>
@@ -87,4 +87,4 @@ export const StoreLocator = ({ isOpen }: StoreLocatorProps) => {
 	  </div>
 	</section>
   );
-};
+});
