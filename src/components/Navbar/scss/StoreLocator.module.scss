@@ -1,17 +1,12 @@
 @use './_globals' as *;
 
-// ============================================
-// Component Styles
-// ============================================
 .storeLocator {
-	// CSS Custom Properties for Theme Support
 	--bg-color: #{$color-bg-light};
 	--text-primary: #{$color-text-primary-light};
 	--text-secondary: #{$color-text-secondary-light};
 	--link-color: #{$color-link};
 	--card-bg: #{$color-card-bg-light};
 
-	// Dark Mode Support
 	:global(.dark-mode) & {
 		--bg-color: #{$color-bg-dark};
 		--text-primary: #{$color-text-primary-dark};
@@ -19,7 +14,6 @@
 		--card-bg: #{$color-card-bg-dark};
 	}
 
-	// Base Styles
 	background-color: var(--bg-color);
 	padding: $spacing-lg 0 $spacing-xxl;
 	font-family: $font-family;
@@ -32,9 +26,6 @@
 	padding: 0 $container-padding;
 }
 
-// ============================================
-// Header Section
-// ============================================
 .header {
 	@include flex-between;
 	margin-bottom: $spacing-xl;
@@ -51,9 +42,6 @@
 	margin: 0;
 }
 
-// ============================================
-// Search Section
-// ============================================
 .searchWrapper {
 	flex: 1;
 	max-width: $search-max-width;
@@ -87,9 +75,6 @@
 	@include text-style($font-size-xs);
 }
 
-// ============================================
-// Results Section
-// ============================================
 .resultsHeader {
 	text-align: center;
 	margin-bottom: $spacing-lg;
@@ -115,9 +100,6 @@
 	@include text-style($font-size-md, $font-weight-medium, var(--text-secondary));
 }
 
-// ============================================
-// Card Component
-// ============================================
 .card {
 	flex: 0 0 31.5%;
 	background: var(--card-bg);

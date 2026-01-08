@@ -4,30 +4,30 @@ import { MenuColumn } from './types';
 import styles from '../scss/Navbar.module.scss';
 
 interface SubMenuProps {
-  columns: MenuColumn[];
+	columns: MenuColumn[];
 }
 
 export const SubMenu = ({ columns }: SubMenuProps) => {
-  return (
-	<div className={styles.megaMenu__content}>
-	  {columns.map((col, index) => (
-		<div key={index} className={styles.megaMenu__column}>
-		  <Text 
-			tag="h3" 
-			field={col.fields.columnHeader} 
-			className={styles.megaMenu__header} 
-		  />
-		  <ul className={styles.megaMenu__links}>
-			{col.fields.links?.map((linkItem, linkIndex) => (
-			  <SubMenuLink 
-				key={linkIndex}
-				field={linkItem.fields.link}
-				isMain={index === 0}
-			  />
+	return (
+		<div className={styles.megaMenu__content}>
+			{columns.map((col, index) => (
+				<div key={index} className={styles.megaMenu__column}>
+				<Text 
+					tag="h3" 
+					field={col.fields.columnHeader} 
+					className={styles.megaMenu__header} 
+				/>
+				<ul className={styles.megaMenu__links}>
+					{col.fields.links?.map((linkItem, linkIndex) => (
+					<SubMenuLink 
+						key={linkIndex}
+						field={linkItem.fields.link}
+						isMain={index === 0}
+					/>
+					))}
+				</ul>
+				</div>
 			))}
-		  </ul>
 		</div>
-	  ))}
-	</div>
-  );
+	);
 };

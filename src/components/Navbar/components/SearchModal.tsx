@@ -69,7 +69,7 @@ export const SearchModal = ({ isOpen, onClose, fields }: SearchModalProps) => {
 									...(link.link.value || {}),
 									text: link.link.value?.text ?? link.text?.value ?? ''
 								}
-						  }
+						}
 						: undefined;
 
 					return (
@@ -77,8 +77,8 @@ export const SearchModal = ({ isOpen, onClose, fields }: SearchModalProps) => {
 						<span className={styles.arrowIcon}>
 							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
 						</span>
-            			{linkField ? (
-              				<JssLink field={linkField} className={styles.quickLink} />
+						{linkField ? (
+							<JssLink field={linkField} className={styles.quickLink} />
 							) : (
 							<Text field={link.text} />
 						)}

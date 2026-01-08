@@ -27,8 +27,8 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 
 	const isDesktop = useMediaQuery('(min-width: 1025px)');
 
-	const activeItem = useMemo(() => 
-		navItems.find((item) => item.id === activeTabId), 
+	const activeItem = useMemo(() =>
+		navItems.find((item) => item.id === activeTabId),
 		[navItems, activeTabId]
 	);
 
@@ -78,16 +78,16 @@ const NavbarContent = ({ navItems }: { navItems: NavItem[] }) => {
 				</button>
 
 				<div className={`
-					${styles.menuSlider} 
-					${isMobileMenuOpen ? styles.menuSlider_visible : ''} 
+					${styles.menuSlider}
+					${isMobileMenuOpen ? styles.menuSlider_visible : ''}
 					${activeTabId ? styles.menuSlider_viewSub : ''}
 				`}>
 
 					<ul className={styles.navbar__list}>
 						{navItems.map((item) => (
 							<MenuItem 
-								key={item.id} 
-								item={item} 
+								key={item.id}
+								item={item}
 								isDesktop={isDesktop}
 								activeTabId={activeTabId}
 								setActiveTabId={setActiveTabId}
