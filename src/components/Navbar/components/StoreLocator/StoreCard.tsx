@@ -1,4 +1,4 @@
-import styles from './scss/StoreLocator.module.scss';
+import styles from '../../scss/StoreLocator.module.scss';
 
 interface StoreCardProps {
 	name: string;
