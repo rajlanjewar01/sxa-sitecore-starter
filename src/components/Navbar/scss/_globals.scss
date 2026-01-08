@@ -1,0 +1,174 @@
+// ============================================
+// Global Variables and Mixins
+// ============================================
+// This file uses @forward to make variables and mixins available
+// to files that @use this file
+
+// Font Family
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+// Colors
+$primary-color: #333336;
+$dark-color: #111;
+$light-bg: rgba(245, 245, 247, 0.8);
+$border-light: rgba(255, 255, 255, 0.2);
+$border-darker: rgba(255, 255, 255, 0.1);
+$black: #000;
+$gray-text: rgb(110, 110, 115);
+
+// Colors - Light Theme
+$color-bg-light: #f5f5f7;
+$color-text-primary-light: #1d1d1f;
+$color-text-secondary-light: #6e6e73;
+$color-link: #0066cc;
+$color-card-bg-light: #ffffff;
+$color-border: #86868b;
+
+// Colors - Dark Theme
+$color-bg-dark: #000000;
+$color-text-primary-dark: #f5f5f7;
+$color-text-secondary-dark: #a1a1a6;
+$color-card-bg-dark: #1c1c1e;
+
+// Spacing
+$spacing-xs: 10px;
+$spacing-sm: 20px;
+$spacing-md: 25px;
+$spacing-lg: 40px;
+$spacing-xl: 60px;
+$spacing-xxl: 80px;
+$spacing-xxs: 5px;
+
+// Layout
+$container-max-width: 1100px;
+$container-padding: 22px;
+$search-max-width: 450px;
+$card-image-height: 200px;
+$nav-height: 44px;
+$max-width: 800px;
+$padding-top: 50px;
+
+// Typography
+$font-size-xs: 14px;
+$font-size-base: 16px;
+$font-size-md: 19px;
+$font-size-lg: 24px;
+$font-size-xl: 40px;
+$font-size-small: 12px;
+$font-size-medium: 20px;
+$font-size-large: 24px;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$line-height-base: 1.4;
+
+// Border & Radius
+$border-radius-sm: 10px;
+$border-radius-lg: 18px;
+$border-width: 1px;
+
+// Shadows
+$shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+$shadow-focus: 0 0 0 4px rgba(0, 102, 204, 0.1);
+
+// Transitions
+$transition-duration: 0.4s;
+$transition-base: 0.3s ease;
+$transition-transform: transform $transition-base;
+$cubic-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+
+// Breakpoints
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+// Icon Sizes
+$icon-size: 25px;
+$icon-position-left: 2%;
+
+// Z-index
+$z-index-modal: 2000;
+
+// Opacity
+$opacity-hover: 0.7;
+
+// Blur
+$blur-amount: 20px;
+
+// ============================================
+// Mixins
+// ============================================
+
+@mixin transition-smooth {
+	transition: all $transition-duration $cubic-bezier;
+}
+
+@mixin transparent-button {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+@mixin transparent-input {
+	background: transparent;
+	border: none;
+	outline: none;
+}
+
+@mixin hover-opacity {
+	opacity: $opacity-hover;
+	&:hover { opacity: 1; }
+}
+
+@mixin respond-to($breakpoint) {
+	@media (max-width: $breakpoint) {
+		@content;
+	}
+}
+
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+}
+
+@mixin flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+@mixin text-style($size, $weight: normal, $color: var(--text-primary)) {
+	font-size: $size;
+	font-weight: $weight;
+	color: $color;
+}
+
+@mixin link-style {
+	color: var(--link-color);
+	text-decoration: none;
+	
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+@mixin card-hover {
+	transition: $transition-transform;
+	
+	&:hover {
+		transform: translateY(-5px);
+	}
+}
+
+@mixin scrollbar-hidden {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	-webkit-overflow-scrolling: touch;
+}
+
+@mixin input-focus {
+	&:focus {
+		border-color: var(--link-color);
+		box-shadow: $shadow-focus;
+		outline: none;
+	}
+}

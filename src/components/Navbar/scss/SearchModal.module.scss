@@ -1,48 +1,4 @@
-// Variables
-$primary-color: #333336;
-$dark-color: #111;
-$light-bg: rgba(245, 245, 247, 0.8);
-$border-light: rgba(255, 255, 255, 0.2);
-$border-darker: rgba(255, 255, 255, 0.1);
-$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-$font-size-large: 24px;
-$font-size-medium: 20px;
-$font-size-small: 12px;
-$transition-duration: 0.4s;
-$cubic-bezier: cubic-bezier(0.4, 0, 0.2, 1);
-$z-index-modal: 2000;
-$max-width: 800px;
-$spacing-large: 40px;
-$spacing-medium: 30px;
-$spacing-small: 15px;
-$spacing-xs: 10px;
-$spacing-xxs: 5px;
-$padding-top: 50px;
-$opacity-hover: 0.7;
-$blur-amount: 20px;
-$gray-text: rgb(110, 110, 115);
-$black: #000;
-
-@mixin transition-smooth {
-	transition: all $transition-duration $cubic-bezier;
-}
-
-@mixin transparent-button {
-	background: none;
-	border: none;
-	cursor: pointer;
-}
-
-@mixin transparent-input {
-	background: transparent;
-	border: none;
-	outline: none;
-}
-
-@mixin hover-opacity {
-	opacity: $opacity-hover;
-	&:hover { opacity: 1; }
-}
+@use './_globals' as *;
 
 .searchOverlay {
 	position: fixed;
@@ -60,7 +16,7 @@ $black: #000;
 .searchContainer {
 	width: 100%;
 	max-width: $max-width;
-	padding: 0 $spacing-large;
+	padding: 0 $spacing-lg;
 	animation: slideDown $transition-duration ease-out;
 }
 
@@ -72,7 +28,7 @@ $black: #000;
 .searchBar {
 	display: flex;
 	align-items: center;
-	gap: $spacing-small;
+	gap: $spacing-sm;
 	border-bottom: 1px solid $border-light;
 	padding-bottom: $spacing-xs;
 
@@ -104,14 +60,14 @@ $black: #000;
 }
 
 .quickLinks {
-	margin-top: $spacing-medium;
+	margin-top: $spacing-md;
 	color: $dark-color;
 
 	h4 {
 		font-size: $font-size-small;
 		text-transform: uppercase;
 		color: $gray-text;
-		margin-bottom: $spacing-small;
+		margin-bottom: $spacing-sm;
 	}
 
 	ul {

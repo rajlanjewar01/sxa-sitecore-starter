@@ -1,10 +1,4 @@
-// --- Variables & Mixins ---
-$nav-height: 44px;
-$breakpoint-tablet: 1024px;
-
-@mixin transition-smooth {
-	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+@use './_globals' as *;
 
 .navWrapper {
 	// --- Theme Variables ---
@@ -38,7 +32,7 @@ $breakpoint-tablet: 1024px;
 	@include transition-smooth;
 
 	&_expanded {
-		@media (max-width: $breakpoint-tablet) {
+		@media (max-width: $breakpoint-desktop) {
 			background-color: var(--mobile-bg);
 			height: 100vh;
 			overflow: hidden;
@@ -67,7 +61,7 @@ $breakpoint-tablet: 1024px;
 		filter: brightness(0) invert(1);
 	}
 
-	@media (max-width: $breakpoint-tablet) {
+	@media (max-width: $breakpoint-desktop) {
 		width: 20px;
 	}
 }
@@ -83,7 +77,7 @@ $breakpoint-tablet: 1024px;
 		width: 100%;
 	}
 
-	@media (max-width: $breakpoint-tablet) {
+	@media (max-width: $breakpoint-desktop) {
 		position: fixed;
 		top: $nav-height;
 		left: 0;
@@ -115,7 +109,7 @@ $breakpoint-tablet: 1024px;
 	margin: 0;
 	padding: 0;
 
-	@media (max-width: $breakpoint-tablet) {
+	@media (max-width: $breakpoint-desktop) {
 		width: 50%;
 		flex-direction: column;
 		align-items: flex-start;
@@ -136,7 +130,7 @@ $breakpoint-tablet: 1024px;
 
 	&:hover { opacity: 1; }
 
-	@media (max-width: $breakpoint-tablet) {
+	@media (max-width: $breakpoint-desktop) {
 		width: 100%;
 		padding: 14px 0;
 		font-size: 24px;
@@ -150,7 +144,7 @@ $breakpoint-tablet: 1024px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	@media (max-width: $breakpoint-tablet) {
+	@media (max-width: $breakpoint-desktop) {
 		font-size: 24px;
 	}
 }
@@ -158,7 +152,7 @@ $breakpoint-tablet: 1024px;
 .mobileSubView {
 	display: none;
 
-	@media (max-width: $breakpoint-tablet) {
+	@media (max-width: $breakpoint-desktop) {
 		display: flex;
 		width: 50%;
 		flex-direction: column;
@@ -208,7 +202,7 @@ $breakpoint-tablet: 1024px;
 		border-bottom: 1px solid var(--nav-border);
 	}
 
-	@media (max-width: $breakpoint-tablet) {
+	@media (max-width: $breakpoint-desktop) {
 		display: none;
 	}
 
@@ -249,7 +243,7 @@ $breakpoint-tablet: 1024px;
 
 .hamburger {
 	display: none;
-	@media (max-width: $breakpoint-tablet) {
+	@media (max-width: $breakpoint-desktop) {
 		display: block;
 		background: none;
 		border: none;

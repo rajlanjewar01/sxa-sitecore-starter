@@ -1,6 +1,6 @@
 import { useState, forwardRef } from 'react';
 import { StoreCard } from './StoreCard';
-import styles from './scss/StoreLocator.module.scss';
+import styles from '../../scss/StoreLocator.module.scss';
 
 const stores = [
   {
