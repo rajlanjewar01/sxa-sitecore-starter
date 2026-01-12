@@ -7,7 +7,6 @@ const ORIGINAL_SLIDES = [
 	{ id: 3, genre: 'Sci-Fi', description: 'The fate of humanity rests on a plan.', image: 'https://is1-ssl.mzstatic.com/image/thumb/S9dLxU_nCvhomqGnI3-d_g/980x522sr.jpg' },
 ];
 
-// Infinite loop setup: [Last, 1, 2, 3, First]
 const SLIDES = [
 	ORIGINAL_SLIDES[ORIGINAL_SLIDES.length - 1],
 	...ORIGINAL_SLIDES,
@@ -15,7 +14,7 @@ const SLIDES = [
 ];
 
 const AUTO_PLAY_DURATION = 5000;
-const PROGRESS_INTERVAL = 50; // 30ms for buttery smooth progress
+const PROGRESS_INTERVAL = 50;
 
 const EntertainmentCarousel = () => {
 	const [currentIndex, setCurrentIndex] = useState(1);
@@ -26,10 +25,7 @@ const EntertainmentCarousel = () => {
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
-	const [touchStart, setTouchStart] = useState<number | null>(null);
-	const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-	// Measure container for pixel-perfect centering math
 	const updateSize = useCallback(() => {
 		if (containerRef.current) setContainerWidth(containerRef.current.offsetWidth);
 	}, []);
@@ -78,29 +74,11 @@ const EntertainmentCarousel = () => {
 		return () => { if (timerRef.current) clearInterval(timerRef.current); };
 	}, [isPlaying, nextSlide]);
 
-	// Touch handlers
-	const onTouchStart = (e: React.TouchEvent) => {
-		setTouchEnd(null);
-		setTouchStart(e.targetTouches[0].clientX);
-	};
-	const onTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX);
-	const onTouchEnd = () => {
-		if (!touchStart || !touchEnd) return;
-		const distance = touchStart - touchEnd;
-		if (distance > 50) nextSlide();
-		if (distance < -50) {
-			setIsTransitioning(true);
-			setCurrentIndex(prev => prev - 1);
-			setProgress(0);
-		}
-	};
-
 	const getTransform = () => {
 		const isDesktop = window.innerWidth > 1024;
 		const cardWidth = isDesktop ? Math.min(980, containerWidth * 0.8) : containerWidth;
 		const gap = 20;
 		
-		// Offset centers the active card by calculating half the remaining viewport space
 		const centerOffset = (containerWidth - cardWidth) / 2;
 		const position = centerOffset - (currentIndex * (cardWidth + gap));
 		return `translateX(${position}px)`;
@@ -113,9 +91,6 @@ const EntertainmentCarousel = () => {
 			<div 
 				className={styles.carouselContainer} 
 				ref={containerRef}
-				onTouchStart={onTouchStart}
-				onTouchMove={onTouchMove}
-				onTouchEnd={onTouchEnd}
 			>
 				<div 
 					className={styles.track}
