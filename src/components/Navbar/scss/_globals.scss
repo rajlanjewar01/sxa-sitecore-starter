@@ -46,6 +46,26 @@ $nav-height: 44px;
 $max-width: 800px;
 $padding-top: 50px;
 
+// Carousel
+$carousel-slide-height-mobile: 450px;
+$carousel-slide-height-desktop: 540px;
+$carousel-slide-width-mobile: 100vw;
+$carousel-slide-width-desktop: 80vw;
+$carousel-slide-max-width: 980px;
+$carousel-gap: 20px;
+$carousel-dot-size: 8px;
+$carousel-dot-active-width: 36px;
+$carousel-dot-gap: 12px;
+$carousel-controls-margin-top: 30px;
+$carousel-button-padding: 10px 20px;
+$carousel-button-border-radius: 20px;
+$carousel-heading-font-size: 48px;
+$carousel-heading-font-size-tablet: 32px;
+$carousel-overlay-padding: $spacing-lg;
+$carousel-transition-duration: 0.8s;
+$carousel-progress-transition: 0.05s linear;
+$carousel-dot-transition: 0.4s ease;
+
 // Typography
 $font-size-xs: 14px;
 $font-size-base: 16px;
@@ -77,6 +97,7 @@ $cubic-bezier: cubic-bezier(0.4, 0, 0.2, 1);
 // Breakpoints
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
+$carousel-breakpoint-desktop-min: 1025px;
 
 // Icon Sizes
 $icon-size: 25px;
@@ -169,4 +190,15 @@ $blur-amount: 20px;
 		box-shadow: $shadow-focus;
 		outline: none;
 	}
+}
+
+@mixin slide-transition {
+	opacity: 0.3;
+	transform: scale(0.95);
+	transition: opacity $carousel-transition-duration ease, transform $carousel-transition-duration $cubic-bezier;
+}
+
+@mixin slide-active {
+	opacity: 1;
+	transform: scale(1);
 }

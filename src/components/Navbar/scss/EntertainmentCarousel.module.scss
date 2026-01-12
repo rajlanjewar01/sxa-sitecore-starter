@@ -22,13 +22,13 @@
 
 .heading {
 	text-align: center;
-	font-size: 48px;
+	font-size: $carousel-heading-font-size;
 	font-weight: 600;
 	margin-bottom: $spacing-lg;
 	color: var(--text-color);
 
 	@include respond-to($breakpoint-tablet) {
-		font-size: 32px;
+		font-size: $carousel-heading-font-size-tablet;
 	}
 }
 
@@ -39,32 +39,29 @@
 
 .track {
 	display: flex;
-	gap: 20px;
+	gap: $carousel-gap;
 	width: max-content;
 	will-change: transform;
 }
 
 .slide {
 	position: relative;
-	width: 100vw;
-	height: 450px;
+	width: $carousel-slide-width-mobile;
+	height: $carousel-slide-height-mobile;
 	border-radius: 0;
 	overflow: hidden;
-	opacity: 0.3;
-	transform: scale(0.95);
-	transition: opacity 0.8s ease, transform 0.8s $cubic-bezier;
+	@include slide-transition;
 
 	&.active {
-		opacity: 1;
-		transform: scale(1);
+		@include slide-active;
 		.overlay { opacity: 1; }
 	}
 
-	@media (min-width: 1025px) {
-		width: 80vw;
-		max-width: 980px;
-		height: 540px;
-		border-radius: 18px;
+	@media (min-width: $carousel-breakpoint-desktop-min) {
+		width: $carousel-slide-width-desktop;
+		max-width: $carousel-slide-max-width;
+		height: $carousel-slide-height-desktop;
+		border-radius: $border-radius-lg;
 	}
 }
 
@@ -79,7 +76,7 @@
 	bottom: 0;
 	left: 0;
 	right: 0;
-	padding: $spacing-lg;
+	padding: $carousel-overlay-padding;
 	display: flex;
 	align-items: center;
 	gap: $spacing-md;
@@ -93,8 +90,8 @@
 	background: white;
 	color: black;
 	border: none;
-	padding: 10px 20px;
-	border-radius: 20px;
+	padding: $carousel-button-padding;
+	border-radius: $carousel-button-border-radius;
 	font-weight: 600;
 	cursor: pointer;
 }
@@ -102,30 +99,30 @@
 .controls {
 	display: flex;
 	justify-content: center;
-	margin-top: 30px;
+	margin-top: $carousel-controls-margin-top;
 }
 
 .dots {
 	display: flex;
-	gap: 12px;
+	gap: $carousel-dot-gap;
 	list-style: none;
 	padding: 0;
 }
 
 .dot {
 	position: relative;
-	width: 8px;
-	height: 8px;
+	width: $carousel-dot-size;
+	height: $carousel-dot-size;
 	background: var(--dot-bg);
 	border-radius: 50%;
 	cursor: pointer;
 	overflow: hidden;
-	transition: width 0.4s ease;
+	transition: width $carousel-dot-transition;
 
 	&.activeDot {
-		width: 36px;
+		width: $carousel-dot-active-width;
 		background: var(--dot-progress-bg);
-		border-radius: 10px;
+		border-radius: $border-radius-sm;
 	}
 }
 
@@ -135,5 +132,5 @@
 	left: 0;
 	height: 100%;
 	background-color: var(--text-color);
-	transition: width 0.05s linear;
+	transition: width $carousel-progress-transition;
 }

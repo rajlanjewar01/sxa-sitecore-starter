@@ -7,6 +7,9 @@ const ORIGINAL_SLIDES = [
 	{ id: 3, genre: 'Sci-Fi', description: 'The fate of humanity rests on a plan.', image: 'https://is1-ssl.mzstatic.com/image/thumb/S9dLxU_nCvhomqGnI3-d_g/980x522sr.jpg' },
 ];
 
+/*
+ support seamless looping in a carousel component for infinite scrolling or cycling through items without abrupt jumps
+*/
 const SLIDES = [
 	ORIGINAL_SLIDES[ORIGINAL_SLIDES.length - 1],
 	...ORIGINAL_SLIDES,
@@ -26,6 +29,12 @@ const EntertainmentCarousel = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+	/**
+	 * Performane
+	 * useCallback to maintain stable function reference and prevent unnecessary
+	 * re-renders of child components or effects that depend on this function.
+	 * - Preserve function identity across re-renders
+	 */
 	const updateSize = useCallback(() => {
 		if (containerRef.current) setContainerWidth(containerRef.current.offsetWidth);
 	}, []);
@@ -74,6 +83,7 @@ const EntertainmentCarousel = () => {
 		return () => { if (timerRef.current) clearInterval(timerRef.current); };
 	}, [isPlaying, nextSlide]);
 
+	// Calculate Transform for next slide
 	const getTransform = () => {
 		const isDesktop = window.innerWidth > 1024;
 		const cardWidth = isDesktop ? Math.min(980, containerWidth * 0.8) : containerWidth;
@@ -120,9 +130,24 @@ const EntertainmentCarousel = () => {
 						{ORIGINAL_SLIDES.map((_, index) => {
 							const isActive = (currentIndex - 1 + ORIGINAL_SLIDES.length) % ORIGINAL_SLIDES.length === index;
 							return (
-								<li key={index} className={`${styles.dot} ${isActive ? styles.activeDot : ''}`}
-										onClick={() => { setIsTransitioning(true); setCurrentIndex(index + 1); setProgress(0); }}>
-									{isActive && <div className={styles.progress} style={{ width: `${progress}%` }} />}
+								<li 
+									key={index}
+									className={
+										`${styles.dot} ${isActive ? styles.activeDot : ''}`
+									}
+										onClick={
+											() => {
+												setIsTransitioning(true);
+												setCurrentIndex(index + 1);
+												setProgress(0); 
+											}}>
+									{
+									isActive &&
+										<div 
+											className={styles.progress}
+											style={{ width: `${progress}%` }} 
+										/>
+									}
 								</li>
 							);
 						})}
