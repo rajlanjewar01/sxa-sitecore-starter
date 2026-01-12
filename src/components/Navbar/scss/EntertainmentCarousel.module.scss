@@ -1,0 +1,136 @@
+@use './_globals' as *;
+
+.carouselSection {
+	--bg-color: #f5f5f7;
+	--text-color: #1d1d1f;
+	--dot-bg: rgba(0, 0, 0, 0.1);
+	--dot-progress-bg: rgba(0, 0, 0, 0.05);
+
+	:global(.dark-mode) & {
+		--bg-color: #000000;
+		--text-color: #f5f5f7;
+		--dot-bg: rgba(255, 255, 255, 0.2);
+		--dot-progress-bg: rgba(255, 255, 255, 0.1);
+	}
+
+	background-color: var(--bg-color);
+	padding: $spacing-xl 0;
+	overflow: hidden;
+	font-family: $font-family;
+	@include transition-smooth;
+}
+
+.heading {
+	text-align: center;
+	font-size: $carousel-heading-font-size;
+	font-weight: 600;
+	margin-bottom: $spacing-lg;
+	color: var(--text-color);
+
+	@include respond-to($breakpoint-tablet) {
+		font-size: $carousel-heading-font-size-tablet;
+	}
+}
+
+.carouselContainer {
+	position: relative;
+	width: 100%;
+}
+
+.track {
+	display: flex;
+	gap: $carousel-gap;
+	width: max-content;
+	will-change: transform;
+}
+
+.slide {
+	position: relative;
+	width: $carousel-slide-width-mobile;
+	height: $carousel-slide-height-mobile;
+	border-radius: 0;
+	overflow: hidden;
+	@include slide-transition;
+
+	&.active {
+		@include slide-active;
+		.overlay { opacity: 1; }
+	}
+
+	@media (min-width: $carousel-breakpoint-desktop-min) {
+		width: $carousel-slide-width-desktop;
+		max-width: $carousel-slide-max-width;
+		height: $carousel-slide-height-desktop;
+		border-radius: $border-radius-lg;
+	}
+}
+
+.image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.overlay {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: $carousel-overlay-padding;
+	display: flex;
+	align-items: center;
+	gap: $spacing-md;
+	background: linear-gradient(transparent, rgba(0,0,0,0.7));
+	color: white;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}
+
+.streamButton {
+	background: white;
+	color: black;
+	border: none;
+	padding: $carousel-button-padding;
+	border-radius: $carousel-button-border-radius;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.controls {
+	display: flex;
+	justify-content: center;
+	margin-top: $carousel-controls-margin-top;
+}
+
+.dots {
+	display: flex;
+	gap: $carousel-dot-gap;
+	list-style: none;
+	padding: 0;
+}
+
+.dot {
+	position: relative;
+	width: $carousel-dot-size;
+	height: $carousel-dot-size;
+	background: var(--dot-bg);
+	border-radius: 50%;
+	cursor: pointer;
+	overflow: hidden;
+	transition: width $carousel-dot-transition;
+
+	&.activeDot {
+		width: $carousel-dot-active-width;
+		background: var(--dot-progress-bg);
+		border-radius: $border-radius-sm;
+	}
+}
+
+.progress {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background-color: var(--text-color);
+	transition: width $carousel-progress-transition;
+}

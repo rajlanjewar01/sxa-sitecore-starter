@@ -6,6 +6,7 @@ import { SubMenu } from './components/SubMenu';
 import { SearchModal } from './components/SearchModal';
 import { StoreLocator } from './components/StoreLocator';
 import HeroBanner from './components/HeroBanner';
+import EntertainmentCarousel from './components/EntertainmentCarousel';
 import { useMediaQuery } from './hooks/useMediaQuery'; 
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 
@@ -133,6 +134,7 @@ const AppleNavbar = ({ fields }: NavbarProps): JSX.Element => {
 	return (
 		<ThemeProvider>
 			<NavbarContent navItems={fields?.navItems || []} />
+			<EntertainmentCarousel />
 		</ThemeProvider>
 	);
 };
