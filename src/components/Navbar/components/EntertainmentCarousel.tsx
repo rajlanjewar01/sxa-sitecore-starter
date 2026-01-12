@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from '../scss/EntertainmentCarousel.module.scss';
 
 const ORIGINAL_SLIDES = [
-	{ id: 1, title: 'Ted Lasso', genre: 'Comedy', description: 'Kindness makes a comeback.', image: 'https://is1-ssl.mzstatic.com/image/thumb/zLbkVwwHwe8I5EtuXc8wWg/980x522sr.jpg' },
-	{ id: 2, title: 'The Morning Show', genre: 'Drama', description: 'The news is only half the story.', image: 'https://is1-ssl.mzstatic.com/image/thumb/7wrtoO8W3jt5HhU87C5KNw/980x522sr.jpg' },
-	{ id: 3, title: 'Foundation', genre: 'Sci-Fi', description: 'The fate of humanity rests on a plan.', image: 'https://is1-ssl.mzstatic.com/image/thumb/fhmbI8Mv8fXjBW0bVcW2xg/980x522sr.jpg' },
+	{ id: 1, genre: 'Comedy', description: 'Kindness makes a comeback.', image: 'https://is1-ssl.mzstatic.com/image/thumb/ctu2ZNuCjL3Nyej1udyVRA/980x522sr.jpg' },
+	{ id: 2, genre: 'Drama', description: 'The truth is the top story.', image: 'https://is1-ssl.mzstatic.com/image/thumb/7wrtoO8W3jt5HhU87C5KNw/980x522sr.jpg' },
+	{ id: 3, genre: 'Sci-Fi', description: 'The fate of humanity rests on a plan.', image: 'https://is1-ssl.mzstatic.com/image/thumb/S9dLxU_nCvhomqGnI3-d_g/980x522sr.jpg' },
 ];
 
+// Infinite loop setup: [Last, 1, 2, 3, First]
 const SLIDES = [
 	ORIGINAL_SLIDES[ORIGINAL_SLIDES.length - 1],
 	...ORIGINAL_SLIDES,
@@ -14,7 +15,7 @@ const SLIDES = [
 ];
 
 const AUTO_PLAY_DURATION = 5000;
-const PROGRESS_INTERVAL = 50;
+const PROGRESS_INTERVAL = 50; // 30ms for buttery smooth progress
 
 const EntertainmentCarousel = () => {
 	const [currentIndex, setCurrentIndex] = useState(1);
@@ -24,22 +25,20 @@ const EntertainmentCarousel = () => {
 	const [containerWidth, setContainerWidth] = useState(0);
 
 	const containerRef = useRef<HTMLDivElement>(null);
+	const timerRef = useRef<NodeJS.Timeout | null>(null);
 	const [touchStart, setTouchStart] = useState<number | null>(null);
 	const [touchEnd, setTouchEnd] = useState<number | null>(null);
-	const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-	// Update width calculation for responsive centering
-	const updateWidth = useCallback(() => {
-		if (containerRef.current) {
-			setContainerWidth(containerRef.current.offsetWidth);
-		}
+	// Measure container for pixel-perfect centering math
+	const updateSize = useCallback(() => {
+		if (containerRef.current) setContainerWidth(containerRef.current.offsetWidth);
 	}, []);
 
 	useEffect(() => {
-		updateWidth();
-		window.addEventListener('resize', updateWidth);
-		return () => window.removeEventListener('resize', updateWidth);
-	}, [updateWidth]);
+		updateSize();
+		window.addEventListener('resize', updateSize);
+		return () => window.removeEventListener('resize', updateSize);
+	}, [updateSize]);
 
 	const nextSlide = useCallback(() => {
 		setIsTransitioning(true);
@@ -47,27 +46,19 @@ const EntertainmentCarousel = () => {
 		setProgress(0);
 	}, []);
 
-	const prevSlide = useCallback(() => {
-		setIsTransitioning(true);
-		setCurrentIndex((prev) => prev - 1);
-		setProgress(0);
-	}, []);
-
-	// Infinite Loop "Jump"
+	// Infinite Loop Logic
 	useEffect(() => {
 		if (currentIndex === SLIDES.length - 1) {
-			const timer = setTimeout(() => {
+			setTimeout(() => {
 				setIsTransitioning(false);
 				setCurrentIndex(1);
 			}, 700);
-			return () => clearTimeout(timer);
 		}
 		if (currentIndex === 0) {
-			const timer = setTimeout(() => {
+			setTimeout(() => {
 				setIsTransitioning(false);
 				setCurrentIndex(SLIDES.length - 2);
 			}, 700);
-			return () => clearTimeout(timer);
 		}
 	}, [currentIndex]);
 
@@ -84,9 +75,7 @@ const EntertainmentCarousel = () => {
 				});
 			}, PROGRESS_INTERVAL);
 		}
-		return () => {
-			if (timerRef.current) clearInterval(timerRef.current);
-		};
+		return () => { if (timerRef.current) clearInterval(timerRef.current); };
 	}, [isPlaying, nextSlide]);
 
 	// Touch handlers
@@ -99,18 +88,22 @@ const EntertainmentCarousel = () => {
 		if (!touchStart || !touchEnd) return;
 		const distance = touchStart - touchEnd;
 		if (distance > 50) nextSlide();
-		if (distance < -50) prevSlide();
+		if (distance < -50) {
+			setIsTransitioning(true);
+			setCurrentIndex(prev => prev - 1);
+			setProgress(0);
+		}
 	};
 
-	// Dynamic transform calculation
 	const getTransform = () => {
-		const isMobile = window.innerWidth <= 1024;
-		const cardWidth = isMobile ? containerWidth : Math.min(980, containerWidth * 0.8);
+		const isDesktop = window.innerWidth > 1024;
+		const cardWidth = isDesktop ? Math.min(980, containerWidth * 0.8) : containerWidth;
 		const gap = 20;
 		
-		// Centers the card perfectly regardless of viewport size
-		const offset = (containerWidth - cardWidth) / 2;
-		return `translateX(${offset - (currentIndex * (cardWidth + gap))}px)`;
+		// Offset centers the active card by calculating half the remaining viewport space
+		const centerOffset = (containerWidth - cardWidth) / 2;
+		const position = centerOffset - (currentIndex * (cardWidth + gap));
+		return `translateX(${position}px)`;
 	};
 
 	return (
@@ -118,7 +111,7 @@ const EntertainmentCarousel = () => {
 			<h2 className={styles.heading}>Endless entertainment.</h2>
 			
 			<div 
-				className={styles.carouselContainer}
+				className={styles.carouselContainer} 
 				ref={containerRef}
 				onTouchStart={onTouchStart}
 				onTouchMove={onTouchMove}
@@ -128,60 +121,37 @@ const EntertainmentCarousel = () => {
 					className={styles.track}
 					style={{ 
 						transform: getTransform(),
-						transition: isTransitioning ? 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+						transition: isTransitioning ? 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
 					}}
 				>
-					{SLIDES.map((slide, index) => {
-						const isActive = index === currentIndex;
-						return (
-							<div 
-								key={`${slide.id}-${index}`} 
-								className={`${styles.slide} ${isActive ? styles.active : ''}`}
-							>
-								<img src={slide.image} alt={slide.title} className={styles.image} />
-								{isActive && (
-									<div className={styles.overlay}>
-										<button className={styles.streamButton}>Stream now</button>
-										<p className={styles.description}>
-											<span>{slide.genre} • </span>{slide.description}
-										</p>
-									</div>
-								)}
+					{SLIDES.map((slide, index) => (
+						<div 
+							key={`${slide.id}-${index}`} 
+							className={`${styles.slide} ${index === currentIndex ? styles.active : ''}`}
+						>
+							<img src={slide.image} alt="Show" className={styles.image} />
+							<div className={styles.overlay}>
+								<button className={styles.streamButton}>Stream now</button>
+								<p className={styles.description}>
+									<span>{slide.genre} • </span>{slide.description}
+								</p>
 							</div>
-						);
-					})}
+						</div>
+					))}
 				</div>
 
 				<div className={styles.controls}>
 					<ul className={styles.dots}>
 						{ORIGINAL_SLIDES.map((_, index) => {
-							const dotActive = (currentIndex - 1 + ORIGINAL_SLIDES.length) % ORIGINAL_SLIDES.length === index;
+							const isActive = (currentIndex - 1 + ORIGINAL_SLIDES.length) % ORIGINAL_SLIDES.length === index;
 							return (
-								<li 
-									key={index}
-									className={`${styles.dot} ${dotActive ? styles.activeDot : ''}`}
-									onClick={() => {
-										setIsTransitioning(true);
-										setCurrentIndex(index + 1);
-										setProgress(0);
-									}}
-								>
-									{dotActive && (
-										<div 
-											className={styles.progressInner} 
-											style={{ width: `${progress}%` }} 
-										/>
-									)}
+								<li key={index} className={`${styles.dot} ${isActive ? styles.activeDot : ''}`}
+										onClick={() => { setIsTransitioning(true); setCurrentIndex(index + 1); setProgress(0); }}>
+									{isActive && <div className={styles.progress} style={{ width: `${progress}%` }} />}
 								</li>
 							);
 						})}
 					</ul>
-					<button 
-						className={styles.playToggle} 
-						onClick={() => setIsPlaying(!isPlaying)}
-					>
-						{isPlaying ? 'Pause' : 'Play'}
-					</button>
 				</div>
 			</div>
 		</section>
