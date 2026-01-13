@@ -6,6 +6,7 @@
 	margin: 0 auto;
 	font-family: $font-family;
 	background-color: transparent;
+	transition: background-color 0.3s ease;
 
 	@include respond-to($breakpoint-tablet) { 
 		padding: $spacing-lg $container-padding; 
@@ -13,6 +14,13 @@
 	@include respond-to($breakpoint-mobile) { 
 		padding: $spacing-md $spacing-sm; 
 	}
+}
+
+.variantFeatured {
+	background-color: var(--card-bg-inner);
+	border-radius: $border-radius-lg;
+	margin-top: $spacing-lg;
+	margin-bottom: $spacing-lg;
 }
 
 .mainTitle {
@@ -55,15 +63,17 @@
 		background-color: var(--tab-bg-active);
 		color: var(--tab-text-active);
 	}
+
+	&:hover:not(.active) {
+		opacity: 0.8;
+	}
 }
 
 .productGrid {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: $spacing-lg;
-	overflow-x: auto;
-	@include scrollbar-hidden;
-
+	
 	@include respond-to($breakpoint-desktop) { 
 		grid-template-columns: repeat(3, 1fr); 
 		gap: $spacing-md;
@@ -78,10 +88,21 @@
 	}
 }
 
+// Variant: Featured Grid
+.featuredGrid {
+	@media (min-width: 1025px) {
+		grid-template-columns: repeat(2, 1fr);
+		.card {
+			 max-width: 450px;
+		}
+	}
+}
+
 .card {
 	text-align: center;
 	max-width: 320px;
 	margin: 0 auto;
+	width: 100%;
 
 	@include respond-to($breakpoint-mobile) { max-width: 100%; }
 }
@@ -94,6 +115,7 @@
 	justify-content: center;
 	margin-bottom: $spacing-md;
 	padding: $spacing-md;
+	aspect-ratio: 1 / 1;
 
 	@include respond-to($breakpoint-mobile) { padding: $spacing-sm; }
 }
@@ -109,6 +131,7 @@
 	justify-content: center;
 	gap: 6px;
 	margin-bottom: $spacing-sm;
+	min-height: 12px;
 }
 
 .dot { 
@@ -123,18 +146,21 @@
 	color: var(--text-tag);
 	font-weight: 600;
 	text-transform: uppercase;
+	margin-bottom: 4px;
 }
 
 .productTitle { 
 	font-size: 24px; 
 	font-weight: 600; 
 	margin: 4px 0; 
+	color: var(--text-primary);
 }
 
 .chips { 
 	font-size: 14px;
-	 font-weight: 600; 
-	 margin-bottom: 8px; 
+	font-weight: 600; 
+	margin-bottom: 8px; 
+	color: var(--text-primary);
 }
 
 .description { 
@@ -148,6 +174,7 @@
 	font-size: 14px; 
 	font-weight: 500; 
 	margin: $spacing-md 0; 
+	color: var(--text-primary);
 
 	@include respond-to($breakpoint-mobile) { 
 		margin: $spacing-sm 0; 
@@ -157,6 +184,7 @@
 .disclaimer { 
 	font-size: 11px; 
 	color: var(--text-secondary); 
+	display: block;
 }
 
 .actions {
@@ -176,10 +204,14 @@
 		border-radius: 20px;
 		font-weight: 500;
 		cursor: pointer;
+		transition: opacity 0.2s ease;
+
+	&:hover { opacity: 0.9; }
 }
 
 .buyLink { 
 	color: var(--link-color);
 	text-decoration: none;
 	font-size: 14px;
+	&:hover { text-decoration: underline; }
 }
