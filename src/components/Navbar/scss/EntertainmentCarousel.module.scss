@@ -48,7 +48,6 @@
 	position: relative;
 	width: $carousel-slide-width-mobile;
 	height: $carousel-slide-height-mobile;
-	border-radius: 0;
 	overflow: hidden;
 	@include slide-transition;
 
@@ -61,7 +60,6 @@
 		width: $carousel-slide-width-desktop;
 		max-width: $carousel-slide-max-width;
 		height: $carousel-slide-height-desktop;
-		border-radius: $border-radius-lg;
 	}
 }
 

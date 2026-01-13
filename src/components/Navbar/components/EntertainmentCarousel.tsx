@@ -1,42 +1,53 @@
+// hooks
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from '../scss/EntertainmentCarousel.module.scss';
 
+/*
+ support seamless looping in a carousel component for infinite scrolling 
+ or cycling through items without unwanted jumps
+*/
+// const
 const ORIGINAL_SLIDES = [
 	{ id: 1, genre: 'Comedy', description: 'Kindness makes a comeback.', image: 'https://is1-ssl.mzstatic.com/image/thumb/ctu2ZNuCjL3Nyej1udyVRA/980x522sr.jpg' },
 	{ id: 2, genre: 'Drama', description: 'The truth is the top story.', image: 'https://is1-ssl.mzstatic.com/image/thumb/7wrtoO8W3jt5HhU87C5KNw/980x522sr.jpg' },
 	{ id: 3, genre: 'Sci-Fi', description: 'The fate of humanity rests on a plan.', image: 'https://is1-ssl.mzstatic.com/image/thumb/S9dLxU_nCvhomqGnI3-d_g/980x522sr.jpg' },
 ];
 
-/*
- support seamless looping in a carousel component for infinite scrolling or cycling through items without abrupt jumps
-*/
+// modified array for infinite carousel
 const SLIDES = [
 	ORIGINAL_SLIDES[ORIGINAL_SLIDES.length - 1],
 	...ORIGINAL_SLIDES,
-	ORIGINAL_SLIDES[0],
+	ORIGINAL_SLIDES[0]
 ];
 
 const AUTO_PLAY_DURATION = 5000;
 const PROGRESS_INTERVAL = 50;
 
 const EntertainmentCarousel = () => {
+	// states
 	const [currentIndex, setCurrentIndex] = useState(1);
 	const [isTransitioning, setIsTransitioning] = useState(true);
 	const [progress, setProgress] = useState(0);
-	const [isPlaying, setIsPlaying] = useState(true);
 	const [containerWidth, setContainerWidth] = useState(0);
 
+	// refs
 	const containerRef = useRef<HTMLDivElement>(null);
-	const timerRef = useRef<NodeJS.Timeout | null>(null);
 
 	/**
-	 * Performane
-	 * useCallback to maintain stable function reference and prevent unnecessary
-	 * re-renders of child components or effects that depend on this function.
-	 * - Preserve function identity across re-renders
+	 * Performance *
+	 * The useCallback to maintain stable function reference
+	 * Prevent unnecessary re-renders of child components or effects that depend on this function
+	 * Preserve function identity across re-renders
+	 * 
+	 * useMemo vs useCallback
+	 * useMemo caches a computed value & useCallback caches a function
 	 */
+
 	const updateSize = useCallback(() => {
-		if (containerRef.current) setContainerWidth(containerRef.current.offsetWidth);
+		if (containerRef.current) 
+			{
+				setContainerWidth(containerRef.current.offsetWidth);
+			}
 	}, []);
 
 	useEffect(() => {
@@ -53,42 +64,47 @@ const EntertainmentCarousel = () => {
 
 	// Infinite Loop Logic
 	useEffect(() => {
+		const transitionSpeed = 800; 
+
+		// get last slide
 		if (currentIndex === SLIDES.length - 1) {
-			setTimeout(() => {
+			const timer = setTimeout(() => {
 				setIsTransitioning(false);
 				setCurrentIndex(1);
-			}, 700);
+			}, transitionSpeed);
+			return () => clearTimeout(timer);
 		}
+
+		// get first slide
 		if (currentIndex === 0) {
-			setTimeout(() => {
+			const timer = setTimeout(() => {
 				setIsTransitioning(false);
 				setCurrentIndex(SLIDES.length - 2);
-			}, 700);
+			}, transitionSpeed);
+			return () => clearTimeout(timer);
 		}
 	}, [currentIndex]);
 
 	// Progress Bar / Auto-play
 	useEffect(() => {
-		if (isPlaying) {
-			timerRef.current = setInterval(() => {
-				setProgress((prev) => {
-					if (prev >= 100) {
-						nextSlide();
-						return 0;
-					}
-					return prev + (PROGRESS_INTERVAL / AUTO_PLAY_DURATION) * 100;
-				});
-			}, PROGRESS_INTERVAL);
-		}
-		return () => { if (timerRef.current) clearInterval(timerRef.current); };
-	}, [isPlaying, nextSlide]);
+		const interval = setInterval(() => {
+			setProgress((prev) => {
+				if (prev >= 100) {
+					nextSlide();
+					return 0;
+				}
+				return prev + (PROGRESS_INTERVAL / AUTO_PLAY_DURATION) * 100;
+			});
+		}, PROGRESS_INTERVAL);
+		return () => clearInterval(interval);
+	}, [nextSlide]);
 
 	// Calculate Transform for next slide
 	const getTransform = () => {
 		const isDesktop = window.innerWidth > 1024;
 		const cardWidth = isDesktop ? Math.min(980, containerWidth * 0.8) : containerWidth;
 		const gap = 20;
-		
+
 		const centerOffset = (containerWidth - cardWidth) / 2;
 		const position = centerOffset - (currentIndex * (cardWidth + gap));
 		return `translateX(${position}px)`;
@@ -97,7 +113,7 @@ const EntertainmentCarousel = () => {
 	return (
 		<section className={styles.carouselSection}>
 			<h2 className={styles.heading}>Endless entertainment.</h2>
-			
+
 			<div 
 				className={styles.carouselContainer} 
 				ref={containerRef}

@@ -21,12 +21,54 @@ $color-text-secondary-light: #6e6e73;
 $color-link: #0066cc;
 $color-card-bg-light: #ffffff;
 $color-border: #86868b;
+$color-button-primary: #0071e3;
+$color-border-light: rgba(0, 0, 0, 0.1);
 
 // Colors - Dark Theme
 $color-bg-dark: #000000;
 $color-text-primary-dark: #f5f5f7;
 $color-text-secondary-dark: #a1a1a6;
 $color-card-bg-dark: #1c1c1e;
+$color-button-primary: #0071e3;
+$color-border-light: rgba(255, 255, 255, 0.1);
+
+// ============================================
+// Global CSS Variables
+// ============================================
+
+:root {
+	// Text colors
+	--text-primary: #{$color-text-primary-light};
+	--text-secondary: #{$color-text-secondary-light};
+	--link-color: #{$color-link};
+
+	// Tab variables
+	--tab-bg-active: #{$black};
+	--tab-text-active: #{$color-text-primary-dark};
+	--tab-text-inactive: #{$color-text-secondary-light};
+	--tab-bg-inactive: rgba(0, 0, 0, 0.05);
+	--card-bg-inner: #f5f5f7;
+	--text-tag: #bf4800;
+
+	// Button and border colors
+	--button-primary: #{$color-button-primary};
+	--border-light: #{$color-border-light};
+}
+
+:global(.dark-mode) {
+	--text-primary: #{$color-text-primary-dark};
+	--text-secondary: #{$color-text-secondary-dark};
+
+	--tab-bg-active: #{$color-text-primary-dark};
+	--tab-text-active: #{$black};
+	--tab-text-inactive: #{$color-text-secondary-dark};
+	--tab-bg-inactive: rgba(255, 255, 255, 0.1);
+	--card-bg-inner: #1c1c1e;
+	--text-tag: #ff9f0a;
+
+	--button-primary: #{$color-button-primary};
+	--border-light: #{$color-border-light};
+}
 
 // Spacing
 $spacing-xs: 10px;
@@ -95,6 +137,7 @@ $transition-transform: transform $transition-base;
 $cubic-bezier: cubic-bezier(0.4, 0, 0.2, 1);
 
 // Breakpoints
+$breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
 $carousel-breakpoint-desktop-min: 1025px;
