@@ -37,18 +37,18 @@ export const Tabs = ({ fields }: TabsProps): JSX.Element => {
 	};
 
 	// 3. Apply variant-specific classes/dynamic class
-	const containerClass = `${styles.sectionContainer} ${variant === 'featured' ? styles.variantFeatured : ''}`;
+	const containerClass = `${styles.tabs} ${variant === 'featured' ? styles['tabs--featured'] : ''} ${variant === 'darkmode' ? styles['tabs--darkmode'] : ''}`;
 
 	return (
 		<section className={containerClass}>
-			<Text tag="h1" field={fields.categoryTitle } />
+			<Text tag="h1" field={fields.categoryTitle } className={styles.tabs__heading} />
 			
-			<nav className={styles.tabsNav}>
-				<ul className={styles.tabsList} role="tablist">
+			<nav className={styles.tabs__nav}>
+				<ul className={styles.tabs__list} role="tablist">
 					{fields.tabs?.map((tab) => (
 						<li key={tab}>
 							<button
-								className={`${styles.tabButton} ${activeTab === tab ? styles.active : ''}`}
+								className={`${styles.tabs__button} ${activeTab === tab ? styles['tabs__button--active'] : ''}`}
 								onClick={() => handleTabClick(tab)}
 							>
 								<Text field={{ value: tab }} />
@@ -59,7 +59,7 @@ export const Tabs = ({ fields }: TabsProps): JSX.Element => {
 			</nav>
 
 			{/* change behavior based on the variant */}
-			<div className={`${styles.productGrid} ${variant === 'featured' ? styles.featuredGrid : ''}`}>
+			<div className={`${styles.tabs__grid} ${variant === 'featured' ? styles['tabs__grid--featured'] : ''}`}>
 				{filteredProducts.map((product, id) => (
 					<ProductCard 
 						key={id} 

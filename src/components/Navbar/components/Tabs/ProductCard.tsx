@@ -23,33 +23,33 @@ export const ProductCard = ({
 	monthlyPrice,
 	buttonColor
 }: Product & { buttonColor?: string }) => (
-	<div className={styles.card}>
-		<div className={styles.imageContainer}>
-			<JssImage field={{ value: { src: image, alt: title } }} className={styles.productImage} />
+	<div className={styles.tabs__card}>
+		<div className={styles['tabs__image-container']}>
+			<JssImage field={{ value: { src: image, alt: title } }} className={styles['tabs__product-image']} />
 		</div>
 
-		<div className={styles.cardContent}>
+		<div className={styles['tabs__card-content']}>
 			{tag && 
-				<Text tag="p" className={styles.tag} field={{ value: tag }} />
+				<Text tag="p" className={styles.tabs__tag} field={{ value: tag }} />
 			}
-			<Text tag="h3" className={styles.productTitle} field={{ value: title }} />
-			<Text tag="p" className={styles.chips} field={{ value: chips }} />
+			<Text tag="h3" className={styles['tabs__product-title']} field={{ value: title }} />
+			<Text tag="p" className={styles.tabs__chips} field={{ value: chips }} />
 
-			<RichText className={styles.description} field={{ value: description }} />
+			<RichText className={styles.tabs__description} field={{ value: description }} />
 
-			<div className={styles.pricing}>
+			<div className={styles.tabs__pricing}>
 				<Text tag="p" field={{ value: `From ${price} or ${monthlyPrice}` }} />
-				<Text tag="p" className={styles.disclaimer} field={{ value: 'for 12 mo.**' }} />
+				<Text tag="p" className={styles.tabs__disclaimer} field={{ value: 'for 12 mo.**' }} />
 			</div>
 
-			<div className={styles.actions}>
+			<div className={styles.tabs__actions}>
 				<button 
-					className={styles.learnMore}
+					className={styles['tabs__learn-more']}
 					style={buttonColor ? { backgroundColor: buttonColor } : undefined}
 				>
 					Learn more
 				</button>
-				<a href="#" className={styles.buyLink}>Buy {'>'}</a>
+				<a href="#" className={styles['tabs__buy-link']}>Buy {'>'}</a>
 			</div>
 		</div>
 	</div>
