@@ -11,7 +11,6 @@ export interface Product {
 	description: string;
 	price: string;
 	monthlyPrice: string;
-	colors?: string[];
 }
 
 export const ProductCard = ({
@@ -22,19 +21,13 @@ export const ProductCard = ({
 	description,
 	price, 
 	monthlyPrice,
-	colors
-}: Product) => (
+	buttonColor
+}: Product & { buttonColor?: string }) => (
 	<div className={styles.card}>
 		<div className={styles.imageContainer}>
 			<JssImage field={{ value: { src: image, alt: title } }} className={styles.productImage} />
 		</div>
-		{colors && (
-			<div className={styles.colorSwatches}>
-				{colors.map((color, i) => (
-					<span key={i} className={styles.dot} style={{ backgroundColor: color }} />
-				))}
-			</div>
-		)}
+
 		<div className={styles.cardContent}>
 			{tag && 
 				<Text tag="p" className={styles.tag} field={{ value: tag }} />
@@ -50,7 +43,12 @@ export const ProductCard = ({
 			</div>
 
 			<div className={styles.actions}>
-				<button className={styles.learnMore}>Learn more</button>
+				<button 
+					className={styles.learnMore}
+					style={buttonColor ? { backgroundColor: buttonColor } : undefined}
+				>
+					Learn more
+				</button>
 				<a href="#" className={styles.buyLink}>Buy {'>'}</a>
 			</div>
 		</div>

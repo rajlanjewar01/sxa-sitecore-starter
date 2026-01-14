@@ -16,6 +16,7 @@
 	}
 }
 
+// Featured variant
 .variantFeatured {
 	background-color: var(--card-bg-inner);
 	border-radius: $border-radius-lg;
@@ -29,16 +30,25 @@
 	margin-bottom: $spacing-lg;
 	color: var(--text-primary);
 
-	@include respond-to($breakpoint-tablet) { font-size: 36px; }
-	@include respond-to($breakpoint-mobile) { font-size: 28px; margin-bottom: $spacing-md; }
+	@include respond-to($breakpoint-tablet) {
+		font-size: 36px;
+	}
+	@include respond-to($breakpoint-mobile) {
+		font-size: 28px;
+		margin-bottom: $spacing-md; 
+	}
 }
 
 .tabsNav {
 	display: flex;
 	margin-bottom: $spacing-xl;
 
-	@include respond-to($breakpoint-tablet) { margin-bottom: $spacing-lg; }
-	@include respond-to($breakpoint-mobile) { margin-bottom: $spacing-md; }
+	@include respond-to($breakpoint-tablet) {
+		margin-bottom: $spacing-lg;
+	}
+	@include respond-to($breakpoint-mobile) {
+		margin-bottom: $spacing-md; 
+	}
 }
 
 .tabsList {
@@ -88,7 +98,7 @@
 	}
 }
 
-// Variant: Featured Grid
+// featured grid(variant)
 .featuredGrid {
 	@media (min-width: 1025px) {
 		grid-template-columns: repeat(2, 1fr);
@@ -104,7 +114,9 @@
 	margin: 0 auto;
 	width: 100%;
 
-	@include respond-to($breakpoint-mobile) { max-width: 100%; }
+	@include respond-to($breakpoint-mobile) {
+		max-width: 100%; 
+	}
 }
 
 .imageContainer {
@@ -117,7 +129,9 @@
 	padding: $spacing-md;
 	aspect-ratio: 1 / 1;
 
-	@include respond-to($breakpoint-mobile) { padding: $spacing-sm; }
+	@include respond-to($breakpoint-mobile) {
+		padding: $spacing-sm;
+	}
 }
 
 .productImage { 
@@ -193,12 +207,14 @@
 		justify-content: center;
 		gap: 15px;
 
-	@include respond-to($breakpoint-mobile) { gap: 10px; }
+	@include respond-to($breakpoint-mobile) {
+		gap: 10px;
+	}
 }
 
 .learnMore {
-		background: var(--button-primary);
-		color: $color-card-bg-light;
+		background-color: var(--button-primary); /* Changed from background to background-color */
+		color: white;
 		border: none;
 		padding: 8px 18px;
 		border-radius: 20px;
@@ -206,12 +222,16 @@
 		cursor: pointer;
 		transition: opacity 0.2s ease;
 
-	&:hover { opacity: 0.9; }
+	&:hover {
+		opacity: 0.9;
+	}
 }
 
 .buyLink { 
 	color: var(--link-color);
 	text-decoration: none;
 	font-size: 14px;
-	&:hover { text-decoration: underline; }
+	&:hover {
+		text-decoration: underline;
+	}
 }

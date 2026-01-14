@@ -1,34 +1,32 @@
 import React, { useState, useMemo } from 'react';
-import { Text, ComponentParams, ComponentRendering } from '@sitecore-jss/sitecore-jss-nextjs';
 import styles from '../../scss/Tabs.module.scss';
+import { Text, Field } from '@sitecore-jss/sitecore-jss-nextjs';
+import { ComponentProps } from 'lib/component-props';
 import { ProductCard, Product } from './ProductCard';
 
-interface TabsProps {
-	rendering: ComponentRendering;
-	params: ComponentParams;
+
+type TabsProps = ComponentProps & {
 	fields: {
-		categoryTitle: { value: string };
-		tabs: { value: string }[]; // Assuming Sitecore sends an array of items
+		categoryTitle: Field<string>;
+		tabs?: string[];
 		products: Product[];
+		defaultTab?: string;
+		backgroundColor?: string;
+		params?: { [key: string]: string };
 	};
-	// Supporting your existing manual props for Storybook
-	categoryTitle?: string;
-	tabs?: string[];
-	products?: Product[];
-	defaultTab?: string;
-}
+};
+// interface TabsProps {
+// 	categoryTitle?: string;
+// 	tabs?: string[];
+// 	products?: Product[];
+// 	defaultTab?: string;
+// }
 
-export const Tabs = (props: TabsProps): JSX.Element => {
-	// 1. Extract variant from Sitecore Params (usually set in Rendering Parameters)
-	const variant = props.params?.Variant?.toLowerCase() || 'default';
-	
-	// 2. Handle both Sitecore Fields and Manual Props (for Storybook/Dev)
-	const categoryTitle = props.fields?.categoryTitle?.value || props.categoryTitle || '';
-	const tabsList = props.tabs || []; // Adjust based on how Sitecore passes the list
-	const allProducts = props.products || [];
-
-	const [activeTab, setActiveTab] = useState(props.defaultTab || tabsList[0]);
-
+export const Tabs = ({ fields }: TabsProps): JSX.Element => {
+	const [activeTab, setActiveTab] = useState(fields.defaultTab || fields.tabs?.[0] || '');
+	const variant = fields.params?.Variant?.toLowerCase() || 'default';
+	const allProducts = fields.products || [];
+	// filter products
 	const filteredProducts = useMemo(() => {
 		if (activeTab === 'All products') return allProducts;
 		return allProducts.filter(product => product.category === activeTab);
@@ -38,22 +36,20 @@ export const Tabs = (props: TabsProps): JSX.Element => {
 		setActiveTab(tab);
 	};
 
-	// 3. Apply variant-specific classes
+	// 3. Apply variant-specific classes/dynamic class
 	const containerClass = `${styles.sectionContainer} ${variant === 'featured' ? styles.variantFeatured : ''}`;
 
 	return (
 		<section className={containerClass}>
-			<Text tag="h1" className={styles.mainTitle} field={{ value: categoryTitle }} />
+			<Text tag="h1" field={fields.categoryTitle } />
 			
 			<nav className={styles.tabsNav}>
 				<ul className={styles.tabsList} role="tablist">
-					{tabsList.map((tab) => (
-						<li key={tab} role="presentation">
+					{fields.tabs?.map((tab) => (
+						<li key={tab}>
 							<button
 								className={`${styles.tabButton} ${activeTab === tab ? styles.active : ''}`}
 								onClick={() => handleTabClick(tab)}
-								role="tab"
-								aria-selected={activeTab === tab}
 							>
 								<Text field={{ value: tab }} />
 							</button>
@@ -62,13 +58,14 @@ export const Tabs = (props: TabsProps): JSX.Element => {
 				</ul>
 			</nav>
 
-			{/* The grid can also change behavior based on the variant */}
+			{/* change behavior based on the variant */}
 			<div className={`${styles.productGrid} ${variant === 'featured' ? styles.featuredGrid : ''}`}>
-				{filteredProducts.map((product, idx) => (
+				{filteredProducts.map((product, id) => (
 					<ProductCard 
-						key={idx} 
-						{...product} 
-						isFeatured={variant === 'featured' && idx === 0} // Example: highlight first item
+						key={id} 
+						{...product}
+						isFeatured={variant === 'featured' && id === 0}
+						buttonColor={fields.backgroundColor}
 					/>
 				))}
 			</div>
